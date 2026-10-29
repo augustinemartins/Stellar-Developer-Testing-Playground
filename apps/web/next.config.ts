@@ -23,7 +23,8 @@ const csp = [
 const config: NextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
-  output: "standalone",
+  // Standalone output is for the Docker image; Vercel builds its own deployment format.
+  output: process.env.VERCEL ? undefined : "standalone",
   transpilePackages: [
     "@playground/shared-types",
     "@playground/contract-loader",

@@ -1,0 +1,31 @@
+name: Publish issues
+
+# Creates the issues described in .github/issues/*.md. Existing issues (matched by title) are
+# left alone, so pushing again or re-running this never creates duplicates.
+on:
+  push:
+    paths:
+      - ".github/issues/**"
+      - ".github/scripts/sync-issues.mjs"
+      - ".github/workflows/issues.yml"
+  workflow_dispatch:
+
+permissions:
+  issues: write
+
+concurrency:
+  group: publish-issues
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+      - run: node .github/scripts/sync-issues.mjs
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}

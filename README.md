@@ -22,6 +22,12 @@ pnpm install
 pnpm dev          # http://localhost:3000
 ```
 
+### Deploy your own
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Faugustinemartins%2FStellar-Developer-Testing-Playground&root-directory=apps%2Fweb&project-name=stellar-playground)
+
+On Vercel, import the repository and set **Root Directory** to `apps/web`; the other settings are detected. Every push then redeploys automatically, and pull requests get preview URLs. The app's security headers (CSP and others) come from `next.config.ts`, so they apply on Vercel too.
+
 Or with Docker:
 
 ```sh

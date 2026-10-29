@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security vulnerability
+    url: https://github.com/augustinemartins/Stellar-Developer-Testing-Playground/security/advisories/new
+    about: Please report security issues privately.
+  - name: Documentation
+    url: https://github.com/augustinemartins/Stellar-Developer-Testing-Playground/tree/main/docs
+    about: Guides, value format and troubleshooting.
