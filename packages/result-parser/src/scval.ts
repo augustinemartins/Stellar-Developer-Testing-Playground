@@ -1,12 +1,5 @@
 import { Address, scValToNative, xdr } from "@stellar/stellar-sdk";
-import {
-  bytesToHex,
-  findUdt,
-  type ContractSpec,
-  type DecodedValue,
-  type JsonValue,
-  type TypeDef,
-} from "@playground/shared-types";
+import { bytesToHex, findUdt, type ContractSpec, type DecodedValue, type JsonValue, type TypeDef } from "@playground/shared-types";
 
 /** Short, stable type tags for ScVal variants (`scvU32` → `u32`). */
 const TYPE_TAGS: Record<string, string> = {
@@ -153,14 +146,9 @@ export function scValToTypedJson(v: xdr.ScVal, type: TypeDef, spec: ContractSpec
       if (v.type !== "scvMap") return scValToJson(v);
       const entries = v.map ?? [];
       if (type.key.kind === "string" || type.key.kind === "symbol") {
-        return Object.fromEntries(
-          entries.map((e) => [String(scValToJson(e.key)), scValToTypedJson(e.val, type.value, spec, depth + 1)]),
-        );
+        return Object.fromEntries(entries.map((e) => [String(scValToJson(e.key)), scValToTypedJson(e.val, type.value, spec, depth + 1)]));
       }
-      return entries.map((e) => [
-        scValToTypedJson(e.key, type.key, spec, depth + 1),
-        scValToTypedJson(e.val, type.value, spec, depth + 1),
-      ]);
+      return entries.map((e) => [scValToTypedJson(e.key, type.key, spec, depth + 1), scValToTypedJson(e.val, type.value, spec, depth + 1)]);
     }
     case "udt": {
       const udt = findUdt(spec, type.name);

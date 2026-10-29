@@ -1,11 +1,6 @@
 "use client";
 import { useCallback } from "react";
-import {
-  SCENARIO_VERSION,
-  type Scenario,
-  type ScenarioCollection,
-  type SimulationStatus,
-} from "@playground/shared-types";
+import { SCENARIO_VERSION, type Scenario, type ScenarioCollection, type SimulationStatus } from "@playground/shared-types";
 import { usePersistentState } from "./storage";
 
 export interface LastRun {

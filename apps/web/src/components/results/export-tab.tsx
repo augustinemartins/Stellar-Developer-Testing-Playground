@@ -81,21 +81,42 @@ export function ExportTab({
           </label>
           <label className="block text-xs">
             Description <span className="text-muted">(what this checks and why)</span>
-            <textarea maxLength={5000} rows={2} className={cx(inputClass, "mt-1")} value={description} onChange={(e) => setDescription(e.target.value)} />
+            <textarea
+              maxLength={5000}
+              rows={2}
+              className={cx(inputClass, "mt-1")}
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+            />
           </label>
           <label className="block text-xs">
             Tags <span className="text-muted">(comma separated)</span>
-            <input className={cx(inputClass, "mt-1")} value={tags} onChange={(e) => setTags(e.target.value)} placeholder="regression, auth" />
+            <input
+              className={cx(inputClass, "mt-1")}
+              value={tags}
+              onChange={(e) => setTags(e.target.value)}
+              placeholder="regression, auth"
+            />
           </label>
           <label className="flex items-start gap-2 text-xs">
             <input type="checkbox" className="mt-0.5" checked={lock} onChange={(e) => setLock(e.target.checked)} />
             <span>
               Lock this result as expectations
-              <span className="block text-muted">Replays fail if the status, return value, error code, event count or signers change, or fees/instructions grow by more than 25%.</span>
+              <span className="block text-muted">
+                Replays fail if the status, return value, error code, event count or signers change, or fees/instructions grow by more than
+                25%.
+              </span>
             </span>
           </label>
           {lock && scenario.expect && (
-            <pre className="max-h-40 overflow-auto rounded-md border border-border bg-panel-2 p-2 font-mono text-[11px]">{JSON.stringify(scenario.expect, null, 2)}</pre>
+            <pre
+              tabIndex={0}
+              role="region"
+              aria-label="Locked expectations"
+              className="max-h-40 overflow-auto rounded-md border border-border bg-panel-2 p-2 font-mono text-[11px]"
+            >
+              {JSON.stringify(scenario.expect, null, 2)}
+            </pre>
           )}
           <Button type="submit" variant="primary">
             <Save aria-hidden className="size-4" /> Save scenario
@@ -133,9 +154,22 @@ export function ExportTab({
           </Button>
           {share && (
             <div role="status" className="space-y-1">
-              <p className="text-xs text-muted">Copied to your clipboard. The scenario is encoded in the link&apos;s #fragment, which browsers never send to a server.</p>
-              <input readOnly value={share.url} onFocus={(e) => e.target.select()} aria-label="Share link" className={cx(inputClass, "font-mono text-xs")} />
-              {share.long && <Alert tone="warn">This link is {share.url.length.toLocaleString("en-US")} characters. Some chat apps truncate long links; share the JSON file instead.</Alert>}
+              <p className="text-xs text-muted">
+                Copied to your clipboard. The scenario is encoded in the link&apos;s #fragment, which browsers never send to a server.
+              </p>
+              <input
+                readOnly
+                value={share.url}
+                onFocus={(e) => e.target.select()}
+                aria-label="Share link"
+                className={cx(inputClass, "font-mono text-xs")}
+              />
+              {share.long && (
+                <Alert tone="warn">
+                  This link is {share.url.length.toLocaleString("en-US")} characters. Some chat apps truncate long links; share the JSON
+                  file instead.
+                </Alert>
+              )}
             </div>
           )}
           {shareError && <Alert tone="bad">{shareError}</Alert>}
@@ -148,7 +182,22 @@ export function ExportTab({
           <Button onClick={() => downloadText(safeFilename(scenario.name, ".test.ts"), scenarioToVitest(scenario), "text/typescript")}>
             <Download aria-hidden className="size-4" /> Vitest test
           </Button>
-          <Button onClick={() => downloadText(safeFilename(scenario.name, ".report.json"), JSON.stringify({ request: { args: run.args, argsXdr: run.argsXdr, transactionXdr: run.transactionXdr }, report: run.report, raw: run.raw }, null, 2))}>
+          <Button
+            onClick={() =>
+              downloadText(
+                safeFilename(scenario.name, ".report.json"),
+                JSON.stringify(
+                  {
+                    request: { args: run.args, argsXdr: run.argsXdr, transactionXdr: run.transactionXdr },
+                    report: run.report,
+                    raw: run.raw,
+                  },
+                  null,
+                  2,
+                ),
+              )
+            }
+          >
             <Download aria-hidden className="size-4" /> Result report
           </Button>
         </div>
@@ -158,7 +207,14 @@ export function ExportTab({
             <h4 className="text-xs font-semibold uppercase tracking-wide text-muted">Stellar CLI</h4>
             <CopyButton text={cli} />
           </div>
-          <pre className="max-h-48 overflow-auto rounded-md border border-border bg-panel-2 p-2 font-mono text-[11px] leading-5">{cli}</pre>
+          <pre
+            tabIndex={0}
+            role="region"
+            aria-label="Stellar CLI command"
+            className="max-h-48 overflow-auto rounded-md border border-border bg-panel-2 p-2 font-mono text-[11px] leading-5"
+          >
+            {cli}
+          </pre>
         </div>
         <div className="flex flex-wrap gap-2">
           <CopyButton text={scenarioToCurl(scenario)} label="Copy curl request" size="md" />

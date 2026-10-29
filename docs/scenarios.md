@@ -6,7 +6,7 @@ order: 3
 
 # Save, replay and share scenarios
 
-A **scenario** records *what you called* and *what you expect*. It is the playground's unit of reproducibility.
+A **scenario** records _what you called_ and _what you expect_. It is the playground's unit of reproducibility.
 
 ## Save a scenario
 
@@ -24,7 +24,7 @@ After any simulation, open the **Save & export** tab:
 
 ## Replay
 
-On **Scenarios**, press **Replay**. The playground simulates the call again against the current ledger and shows a table of expectations with expected and actual values. Under *Changed since recording* you will also see differences from the recorded run that are not expectations — for example a fee that moved but stayed under the bound.
+On **Scenarios**, press **Replay**. The playground simulates the call again against the current ledger and shows a table of expectations with expected and actual values. Under _Changed since recording_ you will also see differences from the recorded run that are not expectations — for example a fee that moved but stayed under the bound.
 
 **Run all** replays every saved scenario in order.
 

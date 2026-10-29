@@ -27,7 +27,7 @@ export function AppHeader() {
           <span aria-hidden className="grid size-7 place-items-center rounded-md bg-accent text-accent-fg">
             ✦
           </span>
-          <span className="hidden sm:inline">Stellar Playground</span>
+          <span className="sr-only sm:not-sr-only">Stellar Playground</span>
         </Link>
         <nav aria-label="Main" className="ml-2 flex items-center gap-1">
           {NAV.map(({ href, label, icon: Icon, match }) => {
@@ -43,7 +43,7 @@ export function AppHeader() {
                 )}
               >
                 <Icon aria-hidden className="size-4" />
-                <span className="hidden md:inline">{label}</span>
+                <span className="sr-only md:not-sr-only">{label}</span>
               </Link>
             );
           })}

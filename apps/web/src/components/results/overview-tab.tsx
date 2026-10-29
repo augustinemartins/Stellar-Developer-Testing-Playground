@@ -42,10 +42,21 @@ export function OverviewTab({ run }: { run: SimulationRun }) {
               </>
             )}
           </dl>
-          {r.error.hint && <Alert tone="info" title="Hint">{r.error.hint}</Alert>}
+          {r.error.hint && (
+            <Alert tone="info" title="Hint">
+              {r.error.hint}
+            </Alert>
+          )}
           <details className="rounded-md border border-border">
             <summary className="cursor-pointer px-3 py-2 text-sm">Full error from the RPC</summary>
-            <pre className="max-h-80 overflow-auto border-t border-border bg-panel-2 p-3 font-mono text-[11.5px] leading-5 whitespace-pre-wrap">{r.error.raw}</pre>
+            <pre
+              tabIndex={0}
+              role="region"
+              aria-label="Full error from the RPC"
+              className="max-h-80 overflow-auto border-t border-border bg-panel-2 p-3 font-mono text-[11.5px] leading-5 whitespace-pre-wrap"
+            >
+              {r.error.raw}
+            </pre>
           </details>
           <p className="text-xs text-muted">The Events tab shows the diagnostic trace leading up to the failure.</p>
         </section>
@@ -60,7 +71,13 @@ export function OverviewTab({ run }: { run: SimulationRun }) {
             <div className="flex items-center gap-1">
               <div role="group" aria-label="Return value view" className="inline-flex rounded-md border border-border p-0.5 text-xs">
                 {(["json", "tree"] as const).map((v) => (
-                  <button key={v} type="button" aria-pressed={view === v} onClick={() => setView(v)} className={view === v ? "rounded bg-panel-2 px-2 py-0.5 font-medium" : "px-2 py-0.5 text-muted"}>
+                  <button
+                    key={v}
+                    type="button"
+                    aria-pressed={view === v}
+                    onClick={() => setView(v)}
+                    className={view === v ? "rounded bg-panel-2 px-2 py-0.5 font-medium" : "px-2 py-0.5 text-muted"}
+                  >
                     {v === "json" ? "JSON" : "Typed tree"}
                   </button>
                 ))}
@@ -87,7 +104,11 @@ export function OverviewTab({ run }: { run: SimulationRun }) {
           Summary
         </h3>
         <dl className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-          <Stat label="Estimated fee" value={total !== undefined ? formatStroops(total) : "—"} detail={total !== undefined ? `${total.toLocaleString("en-US")} stroops` : "not available on error"} />
+          <Stat
+            label="Estimated fee"
+            value={total !== undefined ? formatStroops(total) : "—"}
+            detail={total !== undefined ? `${total.toLocaleString("en-US")} stroops` : "not available on error"}
+          />
           <Stat label="CPU instructions" value={r.resources ? r.resources.instructions.toLocaleString("en-US") : "—"} />
           <Stat label="Contract events" value={String(contractEvents(r).length)} detail={`${r.events.length} incl. diagnostics`} />
           <Stat label="Signatures needed" value={String(r.auth.length)} />
@@ -101,8 +122,8 @@ export function OverviewTab({ run }: { run: SimulationRun }) {
         <p>
           Simulated at ledger <Mono>{r.latestLedger.toLocaleString("en-US")}</Mono> in {run.durationMs} ms · source{" "}
           <Mono title={run.source.address}>{shorten(run.source.address)}</Mono>{" "}
-          {run.source.kind === "placeholder" ? "(placeholder)" : run.source.exists === false ? "(not funded on this network)" : ""} · auth mode{" "}
-          <Mono>{run.authMode}</Mono>
+          {run.source.kind === "placeholder" ? "(placeholder)" : run.source.exists === false ? "(not funded on this network)" : ""} · auth
+          mode <Mono>{run.authMode}</Mono>
         </p>
       </section>
     </div>
@@ -134,7 +155,8 @@ function StatusBanner({ run }: { run: SimulationRun }) {
   if (r.status === "restore_required") {
     return (
       <Alert tone="warn" role="status" title="Succeeds after restoring archived state">
-        {r.restore?.entries.length ?? 0} ledger entries are archived and must be restored (min fee {r.restore?.minResourceFee} stroops) before this call can be submitted.
+        {r.restore?.entries.length ?? 0} ledger entries are archived and must be restored (min fee {r.restore?.minResourceFee} stroops)
+        before this call can be submitted.
         <RotateCcw aria-hidden className="hidden" />
       </Alert>
     );

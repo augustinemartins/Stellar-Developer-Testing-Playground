@@ -12,11 +12,11 @@ This tutorial uses the **Counter** sample contract, deployed on testnet from `co
 
 On the home page, choose **Open Counter**. The workspace has three columns:
 
-| Column | What it shows |
-| --- | --- |
-| Methods | Every public function in the contract spec, with its signature. `read` marks likely getters. |
-| Inputs | Typed fields for the selected method, the optional source account and the authorization mode. |
-| Result | Tabs for the outcome of the latest simulation. |
+| Column  | What it shows                                                                                 |
+| ------- | --------------------------------------------------------------------------------------------- |
+| Methods | Every public function in the contract spec, with its signature. `read` marks likely getters.  |
+| Inputs  | Typed fields for the selected method, the optional source account and the authorization mode. |
+| Result  | Tabs for the outcome of the latest simulation.                                                |
 
 The method list comes from the contract's **spec** — the `contractspecv0` section that `soroban-sdk` embeds in every contract WASM. For contracts you paste by ID, the playground downloads the WASM from the network and reads it in your browser.
 
@@ -34,14 +34,14 @@ Type `5` and simulate. Now:
 
 - the return value is the new count;
 - **Events** shows an `Incremented` event, decoded with the parameter names from the contract (`step`, `count`);
-- **State** shows the instance storage entry that *would* be updated;
+- **State** shows the instance storage entry that _would_ be updated;
 - the resource meters show one read-write entry.
 
 Nothing was written. Simulate again and the count is the same, because simulation never changes the ledger.
 
 ## 4. Trigger an error
 
-Set `step` to `0` and simulate. The simulation fails with **Contract error #2: CounterError::InvalidStep**, and the hint repeats the doc comment from the Rust source. Switch the **Events** tab to *Full trace* to see the diagnostic events emitted up to the failure.
+Set `step` to `0` and simulate. The simulation fails with **Contract error #2: CounterError::InvalidStep**, and the hint repeats the doc comment from the Rust source. Switch the **Events** tab to _Full trace_ to see the diagnostic events emitted up to the failure.
 
 Try `-1` too: the playground rejects it before any network request, because `-1` is out of range for `u32`.
 

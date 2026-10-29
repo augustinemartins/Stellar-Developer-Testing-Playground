@@ -4,10 +4,7 @@
   "id": "counter-get",
   "name": "Counter: Read the count",
   "description": "A read-only call: no auth, no events, a small footprint.",
-  "tags": [
-    "counter",
-    "read-only"
-  ],
+  "tags": ["counter", "read-only"],
   "createdAt": "2026-10-29T11:01:52.274Z",
   "updatedAt": "2026-10-29T11:01:52.274Z",
   "network": {
@@ -179,9 +176,7 @@
         {
           "name": "Reset",
           "doc": "Emitted when the owner resets the counter.",
-          "prefixTopics": [
-            "reset"
-          ],
+          "prefixTopics": ["reset"],
           "params": [
             {
               "name": "owner",
@@ -203,9 +198,7 @@
         {
           "name": "Incremented",
           "doc": "Emitted every time the counter changes.",
-          "prefixTopics": [
-            "incremented"
-          ],
+          "prefixTopics": ["incremented"],
           "params": [
             {
               "name": "step",

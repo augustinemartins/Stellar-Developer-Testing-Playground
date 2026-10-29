@@ -96,7 +96,8 @@ export function AuthTab({ run }: { run: SimulationRun }) {
   if (auth.length === 0) {
     return (
       <EmptyState title="No signatures required">
-        This call does not invoke <code className="font-mono">require_auth</code> for any address, so it could be submitted with only the fee payer&apos;s signature.
+        This call does not invoke <code className="font-mono">require_auth</code> for any address, so it could be submitted with only the
+        fee payer&apos;s signature.
       </EmptyState>
     );
   }

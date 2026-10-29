@@ -35,7 +35,9 @@ function Node({ node, label, depth }: { node: ValueNode; label?: string; depth: 
         {open ? <ChevronDown aria-hidden className="size-4" /> : <ChevronRight aria-hidden className="size-4" />}
         {prefix}
         <TypeTag type={node.type} />
-        <span className="text-muted">{count} {node.kind === "vec" ? "items" : "entries"}</span>
+        <span className="text-muted">
+          {count} {node.kind === "vec" ? "items" : "entries"}
+        </span>
       </button>
       {open && (
         <ul className="ml-2 border-l border-border pl-2">
@@ -43,7 +45,12 @@ function Node({ node, label, depth }: { node: ValueNode; label?: string; depth: 
             ? node.items.map((n, i) => <Node key={i} node={n} label={String(i)} depth={depth + 1} />)
             : node.entries.map((e, i) =>
                 e.key.kind === "scalar" ? (
-                  <Node key={i} node={e.value} label={typeof e.key.value === "string" ? e.key.value : JSON.stringify(e.key.value)} depth={depth + 1} />
+                  <Node
+                    key={i}
+                    node={e.value}
+                    label={typeof e.key.value === "string" ? e.key.value : JSON.stringify(e.key.value)}
+                    depth={depth + 1}
+                  />
                 ) : (
                   <li key={i} className="py-0.5">
                     <ul>
@@ -79,9 +86,14 @@ export function JsonInline({ value, className }: { value: JsonValue | undefined;
   return <code className={cx("font-mono text-[12.5px] break-all", className)}>{value === undefined ? "—" : JSON.stringify(value)}</code>;
 }
 
-export function JsonBlock({ value, className }: { value: unknown; className?: string }) {
+export function JsonBlock({ value, className, label = "JSON value" }: { value: unknown; className?: string; label?: string }) {
   return (
-    <pre className={cx("max-h-96 overflow-auto rounded-md border border-border bg-panel-2 p-3 font-mono text-[12px] leading-5", className)}>
+    <pre
+      tabIndex={0}
+      role="region"
+      aria-label={label}
+      className={cx("max-h-96 overflow-auto rounded-md border border-border bg-panel-2 p-3 font-mono text-[12px] leading-5", className)}
+    >
       {JSON.stringify(value, null, 2)}
     </pre>
   );

@@ -4,10 +4,7 @@
   "id": "counter-invalid-step",
   "name": "Counter: Trigger InvalidStep",
   "description": "Returns contract error #2, which the playground maps to `CounterError::InvalidStep`.",
-  "tags": [
-    "counter",
-    "errors"
-  ],
+  "tags": ["counter", "errors"],
   "createdAt": "2026-10-29T11:01:52.444Z",
   "updatedAt": "2026-10-29T11:01:52.444Z",
   "network": {
@@ -179,9 +176,7 @@
         {
           "name": "Reset",
           "doc": "Emitted when the owner resets the counter.",
-          "prefixTopics": [
-            "reset"
-          ],
+          "prefixTopics": ["reset"],
           "params": [
             {
               "name": "owner",
@@ -203,9 +198,7 @@
         {
           "name": "Incremented",
           "doc": "Emitted every time the counter changes.",
-          "prefixTopics": [
-            "incremented"
-          ],
+          "prefixTopics": ["incremented"],
           "params": [
             {
               "name": "step",
@@ -242,9 +235,7 @@
   "recorded": {
     "at": "2026-10-29T11:01:52.278Z",
     "latestLedger": 5449614,
-    "argsXdr": [
-      "AAAAAwAAAAA="
-    ],
+    "argsXdr": ["AAAAAwAAAAA="],
     "transactionXdr": "AAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAGQAAAAAAAAAAQAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAGAAAAAAAAAABrjbIYygIEZWqmKx6vMORB7+Zky2GTHocGy4YbDQ+N0YAAAAMaW5jcmVtZW50X2J5AAAAAQAAAAMAAAAAAAAAAAAAAAAAAAAA",
     "report": {
       "status": "error",

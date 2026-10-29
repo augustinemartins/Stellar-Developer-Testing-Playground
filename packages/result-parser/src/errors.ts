@@ -21,7 +21,12 @@ const HINTS: Record<string, string> = {
 };
 
 function firstLine(text: string): string {
-  return text.split("\n").find((l) => l.trim().length > 0)?.trim() ?? text;
+  return (
+    text
+      .split("\n")
+      .find((l) => l.trim().length > 0)
+      ?.trim() ?? text
+  );
 }
 
 /** Classifies an RPC simulation error string. */

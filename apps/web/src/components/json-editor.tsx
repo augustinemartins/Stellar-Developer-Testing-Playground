@@ -12,7 +12,8 @@ async function configureLoader() {
   if (configured) return;
   const { loader } = await import("@monaco-editor/react");
   // Self-hosted copy (see scripts/copy-monaco.mjs): no CDN, works offline and under CSP.
-  loader.config({ paths: { vs: `/monaco/${MONACO_VERSION}/vs` } });
+  // Absolute URL: Monaco's workers start from a blob: URL, where a relative path can't be resolved.
+  loader.config({ paths: { vs: `${window.location.origin}/monaco/${MONACO_VERSION}/vs` } });
   configured = true;
 }
 
@@ -61,7 +62,9 @@ export function JsonEditor({ value, onChange, schema, readOnly, height = 220, la
   const [ready, setReady] = useState(false);
   const monacoRef = useRef<Parameters<OnMount>[1] | null>(null);
   const submitRef = useRef(onSubmit);
-  submitRef.current = onSubmit;
+  useEffect(() => {
+    submitRef.current = onSubmit;
+  }, [onSubmit]);
 
   useEffect(() => {
     const t = setTimeout(() => !ready && setFailed(true), 15_000);

@@ -4,10 +4,7 @@
   "id": "xlm-decimals",
   "name": "Native XLM (Stellar Asset Contract): Decimals",
   "description": "Lumens use 7 decimals.",
-  "tags": [
-    "sac",
-    "read-only"
-  ],
+  "tags": ["sac", "read-only"],
   "createdAt": "2026-10-29T11:01:53.505Z",
   "updatedAt": "2026-10-29T11:01:53.505Z",
   "network": {
@@ -324,9 +321,7 @@
       "events": [
         {
           "name": "Approve",
-          "prefixTopics": [
-            "approve"
-          ],
+          "prefixTopics": ["approve"],
           "params": [
             {
               "name": "from",
@@ -361,9 +356,7 @@
         },
         {
           "name": "Transfer",
-          "prefixTopics": [
-            "transfer"
-          ],
+          "prefixTopics": ["transfer"],
           "params": [
             {
               "name": "from",
@@ -391,9 +384,7 @@
         },
         {
           "name": "TransferMuxed",
-          "prefixTopics": [
-            "transfer"
-          ],
+          "prefixTopics": ["transfer"],
           "params": [
             {
               "name": "from",
@@ -428,9 +419,7 @@
         },
         {
           "name": "Burn",
-          "prefixTopics": [
-            "burn"
-          ],
+          "prefixTopics": ["burn"],
           "params": [
             {
               "name": "from",
@@ -451,9 +440,7 @@
         },
         {
           "name": "Mint",
-          "prefixTopics": [
-            "mint"
-          ],
+          "prefixTopics": ["mint"],
           "params": [
             {
               "name": "to",
@@ -474,9 +461,7 @@
         },
         {
           "name": "Clawback",
-          "prefixTopics": [
-            "clawback"
-          ],
+          "prefixTopics": ["clawback"],
           "params": [
             {
               "name": "from",
@@ -497,9 +482,7 @@
         },
         {
           "name": "SetAdmin",
-          "prefixTopics": [
-            "set_admin"
-          ],
+          "prefixTopics": ["set_admin"],
           "params": [
             {
               "name": "new_admin",
@@ -513,9 +496,7 @@
         },
         {
           "name": "SetAuthorized",
-          "prefixTopics": [
-            "set_authorized"
-          ],
+          "prefixTopics": ["set_authorized"],
           "params": [
             {
               "name": "id",

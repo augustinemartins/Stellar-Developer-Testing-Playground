@@ -57,7 +57,10 @@ describe.skipIf(!enabled)("testnet", () => {
       expect(parsed.ok, file).toBe(true);
       if (!parsed.ok) continue;
       const result = await runScenario(parsed.value[0]!);
-      expect(result.assertions.filter((a) => !a.passed), file).toEqual([]);
+      expect(
+        result.assertions.filter((a) => !a.passed),
+        file,
+      ).toEqual([]);
     }
   });
 

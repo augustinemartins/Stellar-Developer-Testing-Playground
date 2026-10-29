@@ -16,16 +16,16 @@ apps/web ──▶ simulation-engine ──▶ result-parser ──▶ shared-ty
                           @stellar/stellar-sdk ──▶ Stellar RPC
 ```
 
-| Package | Responsibility |
-| --- | --- |
-| `packages/shared-types` | The normalised contract spec model, the simulation report schema and the versioned scenario schema (zod). No network code. |
-| `packages/contract-loader` | Resolves a contract ID to its executable, downloads WASM, parses `contractspecv0` into the spec model, validates contract IDs, builds example values and JSON Schemas, and holds the sample registry and fixtures. |
-| `packages/simulation-engine` | Validates and encodes typed JSON arguments to `ScVal`, builds the unsigned transaction, simulates it, checks scenario expectations, and exports scenarios (Vitest, CLI, curl, Markdown, share links). |
-| `packages/result-parser` | Turns the raw `simulateTransaction` response into a JSON-safe report: decoded values, resources, footprint, auth trees, events matched to the spec, state changes and classified errors. |
-| `apps/web` | The Next.js UI. |
-| `contracts/` | Rust sample contracts built with `soroban-sdk`, with unit tests. |
-| `examples/scenarios` | Example scenario files, replayed in CI. |
-| `tests/` | End-to-end tests against testnet (opt-in). |
+| Package                      | Responsibility                                                                                                                                                                                                     |
+| ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `packages/shared-types`      | The normalised contract spec model, the simulation report schema and the versioned scenario schema (zod). No network code.                                                                                         |
+| `packages/contract-loader`   | Resolves a contract ID to its executable, downloads WASM, parses `contractspecv0` into the spec model, validates contract IDs, builds example values and JSON Schemas, and holds the sample registry and fixtures. |
+| `packages/simulation-engine` | Validates and encodes typed JSON arguments to `ScVal`, builds the unsigned transaction, simulates it, checks scenario expectations, and exports scenarios (Vitest, CLI, curl, Markdown, share links).              |
+| `packages/result-parser`     | Turns the raw `simulateTransaction` response into a JSON-safe report: decoded values, resources, footprint, auth trees, events matched to the spec, state changes and classified errors.                           |
+| `apps/web`                   | The Next.js UI.                                                                                                                                                                                                    |
+| `contracts/`                 | Rust sample contracts built with `soroban-sdk`, with unit tests.                                                                                                                                                   |
+| `examples/scenarios`         | Example scenario files, replayed in CI.                                                                                                                                                                            |
+| `tests/`                     | End-to-end tests against testnet (opt-in).                                                                                                                                                                         |
 
 ## A simulation, step by step
 

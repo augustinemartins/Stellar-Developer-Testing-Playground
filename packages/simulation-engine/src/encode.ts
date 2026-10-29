@@ -78,8 +78,7 @@ function expectString(value: unknown, what: string, path: string): string {
 function encodeAddress(value: unknown, path: string, allowMuxed: boolean): xdr.ScVal {
   const s = expectString(value, "Address", path).trim();
   if (!s) throw new EncodeError(path, "Address is required.");
-  const valid =
-    StrKey.isValidEd25519PublicKey(s) || StrKey.isValidContract(s) || (allowMuxed && StrKey.isValidMed25519PublicKey(s));
+  const valid = StrKey.isValidEd25519PublicKey(s) || StrKey.isValidContract(s) || (allowMuxed && StrKey.isValidMed25519PublicKey(s));
   if (!valid) {
     if (!allowMuxed && s.startsWith("M")) throw new EncodeError(path, "Muxed (M…) addresses are not accepted for Address; use G… or C….");
     if (s.startsWith("S")) throw new EncodeError(path, "That is a secret key. Never paste secret keys here; use the public key (G…).");
@@ -153,7 +152,10 @@ function encodeUntyped(value: unknown, path: string, spec: ContractSpec): xdr.Sc
     if (typeof type === "string" && (PRIMITIVE_TYPES as readonly string[]).includes(type) && type !== "val") {
       return encodePrimitive(type as PrimitiveTypeName, inner, `${path}.value`, spec);
     }
-    throw new EncodeError(`${path}.type`, `Unknown type ${describe(type)}. Use one of: ${PRIMITIVE_TYPES.filter((t) => t !== "val").join(", ")}.`);
+    throw new EncodeError(
+      `${path}.type`,
+      `Unknown type ${describe(type)}. Use one of: ${PRIMITIVE_TYPES.filter((t) => t !== "val").join(", ")}.`,
+    );
   }
   throw new EncodeError(path, 'Val arguments need an explicit type, e.g. { "type": "u32", "value": 1 }, or raw XDR as { "$xdr": "…" }.');
 }
@@ -243,7 +245,10 @@ function encodeUdt(name: string, value: unknown, path: string, spec: ContractSpe
         return xdr.ScVal.scvVec(udt.fields.map((f, i) => encode(f.type, value[i], join(path, i), spec, depth + 1)));
       }
       if (!value || typeof value !== "object" || Array.isArray(value)) {
-        throw new EncodeError(path, `${name} expects an object with fields ${udt.fields.map((f) => f.name).join(", ")}, got ${describe(value)}.`);
+        throw new EncodeError(
+          path,
+          `${name} expects an object with fields ${udt.fields.map((f) => f.name).join(", ")}, got ${describe(value)}.`,
+        );
       }
       const obj = value as Record<string, unknown>;
       const unknown = Object.keys(obj).filter((k) => !udt.fields.some((f) => f.name === k));
@@ -269,7 +274,10 @@ function encodeUdt(name: string, value: unknown, path: string, spec: ContractSpe
         if (v.values !== undefined && !Array.isArray(v.values)) throw new EncodeError(join(path, "values"), "values must be an array.");
         values = (v.values as unknown[] | undefined) ?? [];
       } else {
-        throw new EncodeError(path, `${name} expects "Case" or { "tag": "Case", "values": [...] }. Cases: ${udt.cases.map((c) => c.name).join(", ")}.`);
+        throw new EncodeError(
+          path,
+          `${name} expects "Case" or { "tag": "Case", "values": [...] }. Cases: ${udt.cases.map((c) => c.name).join(", ")}.`,
+        );
       }
       const c = udt.cases.find((x) => x.name === tag);
       if (!c) throw new EncodeError(path, `${name} has no case "${tag}". Cases: ${udt.cases.map((x) => x.name).join(", ")}.`);
@@ -278,7 +286,10 @@ function encodeUdt(name: string, value: unknown, path: string, spec: ContractSpe
         return xdr.ScVal.scvVec([xdr.ScVal.scvSymbol(tag)]);
       }
       if (values.length !== c.types.length) {
-        throw new EncodeError(join(path, "values"), `${name}::${tag} takes ${c.types.length} value(s): (${c.types.map(formatType).join(", ")}).`);
+        throw new EncodeError(
+          join(path, "values"),
+          `${name}::${tag} takes ${c.types.length} value(s): (${c.types.map(formatType).join(", ")}).`,
+        );
       }
       return xdr.ScVal.scvVec([
         xdr.ScVal.scvSymbol(tag),
@@ -286,16 +297,17 @@ function encodeUdt(name: string, value: unknown, path: string, spec: ContractSpe
       ]);
     }
     case "enum": {
-      const c =
-        typeof value === "number" ? udt.cases.find((x) => x.value === value) : udt.cases.find((x) => x.name === value);
+      const c = typeof value === "number" ? udt.cases.find((x) => x.value === value) : udt.cases.find((x) => x.name === value);
       if (!c) {
-        throw new EncodeError(path, `${name} expects one of ${udt.cases.map((x) => `${x.name} (${x.value})`).join(", ")}, got ${describe(value)}.`);
+        throw new EncodeError(
+          path,
+          `${name} expects one of ${udt.cases.map((x) => `${x.name} (${x.value})`).join(", ")}, got ${describe(value)}.`,
+        );
       }
       return xdr.ScVal.scvU32(c.value);
     }
     case "error_enum": {
-      const c =
-        typeof value === "number" ? udt.cases.find((x) => x.value === value) : udt.cases.find((x) => x.name === value);
+      const c = typeof value === "number" ? udt.cases.find((x) => x.value === value) : udt.cases.find((x) => x.name === value);
       if (!c) throw new EncodeError(path, `${name} expects one of ${udt.cases.map((x) => x.name).join(", ")}.`);
       return xdr.ScVal.scvError(xdr.ScError.sceContract(c.value));
     }
@@ -303,7 +315,12 @@ function encodeUdt(name: string, value: unknown, path: string, spec: ContractSpe
 }
 
 /** Encodes a single value; returns errors instead of throwing. */
-export function encodeValue(type: TypeDef, value: unknown, spec: ContractSpec, path = "value"): { ok: true; value: xdr.ScVal } | { ok: false; error: ArgError } {
+export function encodeValue(
+  type: TypeDef,
+  value: unknown,
+  spec: ContractSpec,
+  path = "value",
+): { ok: true; value: xdr.ScVal } | { ok: false; error: ArgError } {
   try {
     return { ok: true, value: encode(type, value, path, spec, 0) };
   } catch (e) {

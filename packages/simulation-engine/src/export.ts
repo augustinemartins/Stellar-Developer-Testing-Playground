@@ -68,9 +68,7 @@ export function scenarioToVitest(scenario: Scenario): string {
       assertions.push(`    expect(sim.transactionData.build().resources.instructions).toBeLessThanOrEqual(${e.maxInstructions});`);
     }
     if (e.contractEventCount !== undefined) {
-      assertions.push(
-        `    expect(sim.events.filter((ev) => ev.event.type.name === "contract")).toHaveLength(${e.contractEventCount});`,
-      );
+      assertions.push(`    expect(sim.events.filter((ev) => ev.event.type.name === "contract")).toHaveLength(${e.contractEventCount});`);
     }
     if (e.requiredAuth !== undefined) {
       assertions.push(`    expect(sim.result?.auth ?? []).toHaveLength(${e.requiredAuth.length});`);
@@ -297,7 +295,9 @@ export async function decodeShareToken(token: string): Promise<unknown> {
   try {
     bytes = await pipe(compressed, new DecompressionStream("deflate-raw"), MAX_SHARE_BYTES);
   } catch (e) {
-    throw new Error((e as Error).message === "Share link is too large." ? "Share link is too large." : "Share link is corrupted or truncated.");
+    throw new Error(
+      (e as Error).message === "Share link is too large." ? "Share link is too large." : "Share link is corrupted or truncated.",
+    );
   }
   return JSON.parse(new TextDecoder().decode(bytes));
 }

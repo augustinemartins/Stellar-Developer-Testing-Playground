@@ -1,0 +1,8 @@
+pnpm-lock.yaml
+apps/web/public/monaco/
+contracts/target/
+**/fixtures/**
+.next/
+coverage/
+playwright-report/
+test-results/

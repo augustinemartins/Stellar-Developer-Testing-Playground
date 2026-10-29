@@ -1,12 +1,5 @@
-import { Account, Operation, StrKey, TransactionBuilder, contract, rpc, xdr, type Transaction } from "@stellar/stellar-sdk";
-import type {
-  AuthMode,
-  ContractSpec,
-  FunctionSpec,
-  JsonValue,
-  NetworkConfig,
-  SimulationReport,
-} from "@playground/shared-types";
+import { Account, Operation, StrKey, TransactionBuilder, contract, rpc, type xdr, type Transaction } from "@stellar/stellar-sdk";
+import type { AuthMode, ContractSpec, FunctionSpec, JsonValue, NetworkConfig, SimulationReport } from "@playground/shared-types";
 import { parseSimulation, type RawSimulation } from "@playground/result-parser";
 import { encodeArgs, type ArgError } from "./encode";
 import { getServer } from "./network";
@@ -63,7 +56,10 @@ export class InvocationInputError extends Error {
 
 export function findFunction(spec: ContractSpec, method: string): FunctionSpec {
   const fn = spec.functions.find((f) => f.name === method);
-  if (!fn) throw new InvocationInputError(`The contract has no function "${method}".`, [{ path: "method", message: `Unknown function "${method}"` }]);
+  if (!fn)
+    throw new InvocationInputError(`The contract has no function "${method}".`, [
+      { path: "method", message: `Unknown function "${method}"` },
+    ]);
   return fn;
 }
 

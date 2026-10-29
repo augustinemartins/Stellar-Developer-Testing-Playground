@@ -4,11 +4,7 @@
   "id": "token-transfer-with-memo",
   "name": "Sample token: Transfer with memo",
   "description": "An Option<Memo> union argument, two events and an auth entry for `from`.",
-  "tags": [
-    "token",
-    "unions",
-    "events"
-  ],
+  "tags": ["token", "unions", "events"],
   "createdAt": "2026-10-29T11:01:53.155Z",
   "updatedAt": "2026-10-29T11:01:53.155Z",
   "network": {
@@ -531,9 +527,7 @@
       "events": [
         {
           "name": "Burn",
-          "prefixTopics": [
-            "burn"
-          ],
+          "prefixTopics": ["burn"],
           "params": [
             {
               "name": "from",
@@ -554,9 +548,7 @@
         },
         {
           "name": "Mint",
-          "prefixTopics": [
-            "mint"
-          ],
+          "prefixTopics": ["mint"],
           "params": [
             {
               "name": "to",
@@ -577,9 +569,7 @@
         },
         {
           "name": "Approve",
-          "prefixTopics": [
-            "approve"
-          ],
+          "prefixTopics": ["approve"],
           "params": [
             {
               "name": "from",
@@ -614,9 +604,7 @@
         },
         {
           "name": "Transfer",
-          "prefixTopics": [
-            "transfer"
-          ],
+          "prefixTopics": ["transfer"],
           "params": [
             {
               "name": "from",
@@ -644,9 +632,7 @@
         },
         {
           "name": "MemoAttached",
-          "prefixTopics": [
-            "memo"
-          ],
+          "prefixTopics": ["memo"],
           "params": [
             {
               "name": "from",
@@ -678,9 +664,7 @@
       "amount": "10000000",
       "memo": {
         "tag": "Text",
-        "values": [
-          "thanks"
-        ]
+        "values": ["thanks"]
       }
     },
     "authMode": "record"
@@ -691,9 +675,7 @@
     "maxResourceFee": "246517",
     "maxInstructions": 2094670,
     "contractEventCount": 2,
-    "requiredAuth": [
-      "GDMGVMGNK3HZBAY6U7U6PZAIDZ2KUOKTLLDZPWM27ERB6DA4R3UFNJFP"
-    ]
+    "requiredAuth": ["GDMGVMGNK3HZBAY6U7U6PZAIDZ2KUOKTLLDZPWM27ERB6DA4R3UFNJFP"]
   },
   "recorded": {
     "at": "2026-10-29T11:01:52.906Z",
@@ -774,10 +756,7 @@
               "key": {
                 "xdr": "AAAAEAAAAAEAAAACAAAADwAAAAdCYWxhbmNlAAAAABIAAAAAAAAAADTIp6SaQmlPGYJPj6q9xlxNcG+oUB1peZBJNPDure/N",
                 "type": "vec",
-                "json": [
-                  "Balance",
-                  "GA2MRJ5ETJBGSTYZQJHY7KV5YZOE24DPVBIB22LZSBETJ4HOVXX437CI"
-                ]
+                "json": ["Balance", "GA2MRJ5ETJBGSTYZQJHY7KV5YZOE24DPVBIB22LZSBETJ4HOVXX437CI"]
               },
               "label": "[\"Balance\",\"GA2MRJ5ETJBGSTYZQJHY7KV5YZOE24DPVBI… · persistent · CCUD…CEHY"
             },
@@ -789,10 +768,7 @@
               "key": {
                 "xdr": "AAAAEAAAAAEAAAACAAAADwAAAAdCYWxhbmNlAAAAABIAAAAAAAAAANhqsM1Wz5CDHqfp5+QIHnSqOVNax5fZmvkiHwwcjuhW",
                 "type": "vec",
-                "json": [
-                  "Balance",
-                  "GDMGVMGNK3HZBAY6U7U6PZAIDZ2KUOKTLLDZPWM27ERB6DA4R3UFNJFP"
-                ]
+                "json": ["Balance", "GDMGVMGNK3HZBAY6U7U6PZAIDZ2KUOKTLLDZPWM27ERB6DA4R3UFNJFP"]
               },
               "label": "[\"Balance\",\"GDMGVMGNK3HZBAY6U7U6PZAIDZ2KUOKTLLD… · persistent · CCUD…CEHY"
             }
@@ -824,10 +800,7 @@
               },
               {
                 "type": "vec",
-                "json": [
-                  "Text",
-                  "thanks"
-                ]
+                "json": ["Text", "thanks"]
               }
             ],
             "subInvocations": []
@@ -864,10 +837,7 @@
               "GDMGVMGNK3HZBAY6U7U6PZAIDZ2KUOKTLLDZPWM27ERB6DA4R3UFNJFP",
               "GA2MRJ5ETJBGSTYZQJHY7KV5YZOE24DPVBIB22LZSBETJ4HOVXX437CI",
               "10000000",
-              [
-                "Text",
-                "thanks"
-              ]
+              ["Text", "thanks"]
             ]
           },
           "xdr": "AAAAAQAAAAAAAAAAAAAAAgAAAAAAAAADAAAADwAAAAdmbl9jYWxsAAAAAA0AAAAgqDvl7C70dFx7Fl51BXjtN3/nNqeweoJda1Q5JVMzUTEAAAAPAAAAEnRyYW5zZmVyX3dpdGhfbWVtbwAAAAAAEAAAAAEAAAAEAAAAEgAAAAAAAAAA2GqwzVbPkIMep+nn5AgedKo5U1rHl9ma+SIfDByO6FYAAAASAAAAAAAAAAA0yKekmkJpTxmCT4+qvcZcTXBvqFAdaXmQSTTw7q3vzQAAAAoAAAAAAAAAAAAAAAAAmJaAAAAAEAAAAAEAAAACAAAADwAAAARUZXh0AAAADgAAAAZ0aGFua3MAAA==",
@@ -935,10 +905,7 @@
             "xdr": "AAAAEQAAAAEAAAABAAAADwAAAARtZW1vAAAAEAAAAAEAAAACAAAADwAAAARUZXh0AAAADgAAAAZ0aGFua3MAAA==",
             "type": "map",
             "json": {
-              "memo": [
-                "Text",
-                "thanks"
-              ]
+              "memo": ["Text", "thanks"]
             }
           },
           "xdr": "AAAAAQAAAAAAAAABqDvl7C70dFx7Fl51BXjtN3/nNqeweoJda1Q5JVMzUTEAAAABAAAAAAAAAAIAAAAPAAAABG1lbW8AAAASAAAAAAAAAADYarDNVs+Qgx6n6efkCB50qjlTWseX2Zr5Ih8MHI7oVgAAABEAAAABAAAAAQAAAA8AAAAEbWVtbwAAABAAAAABAAAAAgAAAA8AAAAEVGV4dAAAAA4AAAAGdGhhbmtzAAA=",
@@ -947,9 +914,7 @@
             "from": "GDMGVMGNK3HZBAY6U7U6PZAIDZ2KUOKTLLDZPWM27ERB6DA4R3UFNJFP",
             "memo": {
               "tag": "Text",
-              "values": [
-                "thanks"
-              ]
+              "values": ["thanks"]
             }
           }
         },
@@ -1012,10 +977,7 @@
             "key": {
               "xdr": "AAAAEAAAAAEAAAACAAAADwAAAAdCYWxhbmNlAAAAABIAAAAAAAAAADTIp6SaQmlPGYJPj6q9xlxNcG+oUB1peZBJNPDure/N",
               "type": "vec",
-              "json": [
-                "Balance",
-                "GA2MRJ5ETJBGSTYZQJHY7KV5YZOE24DPVBIB22LZSBETJ4HOVXX437CI"
-              ]
+              "json": ["Balance", "GA2MRJ5ETJBGSTYZQJHY7KV5YZOE24DPVBIB22LZSBETJ4HOVXX437CI"]
             },
             "label": "[\"Balance\",\"GA2MRJ5ETJBGSTYZQJHY7KV5YZOE24DPVBI… · persistent · CCUD…CEHY"
           },
@@ -1035,10 +997,7 @@
             "key": {
               "xdr": "AAAAEAAAAAEAAAACAAAADwAAAAdCYWxhbmNlAAAAABIAAAAAAAAAANhqsM1Wz5CDHqfp5+QIHnSqOVNax5fZmvkiHwwcjuhW",
               "type": "vec",
-              "json": [
-                "Balance",
-                "GDMGVMGNK3HZBAY6U7U6PZAIDZ2KUOKTLLDZPWM27ERB6DA4R3UFNJFP"
-              ]
+              "json": ["Balance", "GDMGVMGNK3HZBAY6U7U6PZAIDZ2KUOKTLLDZPWM27ERB6DA4R3UFNJFP"]
             },
             "label": "[\"Balance\",\"GDMGVMGNK3HZBAY6U7U6PZAIDZ2KUOKTLLD… · persistent · CCUD…CEHY"
           },

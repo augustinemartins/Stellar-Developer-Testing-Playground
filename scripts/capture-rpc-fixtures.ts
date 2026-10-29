@@ -44,7 +44,11 @@ for (const c of cases) {
   const file = join(out, `${c.name}.json`);
   writeFileSync(
     file,
-    JSON.stringify({ contractId: run.contractId, sample: c.sample, method: c.method, args: c.args, argsXdr: run.argsXdr, raw: run.raw }, null, 2) + "\n",
+    JSON.stringify(
+      { contractId: run.contractId, sample: c.sample, method: c.method, args: c.args, argsXdr: run.argsXdr, raw: run.raw },
+      null,
+      2,
+    ) + "\n",
   );
   console.log(`${c.name}: ${run.report.status}${run.report.error ? ` (${run.report.error.summary})` : ""}`);
 }

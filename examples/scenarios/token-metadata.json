@@ -4,10 +4,7 @@
   "id": "token-metadata",
   "name": "Sample token: Token metadata",
   "description": "A struct return value.",
-  "tags": [
-    "token",
-    "structs"
-  ],
+  "tags": ["token", "structs"],
   "createdAt": "2026-10-29T11:01:52.903Z",
   "updatedAt": "2026-10-29T11:01:52.903Z",
   "network": {
@@ -530,9 +527,7 @@
       "events": [
         {
           "name": "Burn",
-          "prefixTopics": [
-            "burn"
-          ],
+          "prefixTopics": ["burn"],
           "params": [
             {
               "name": "from",
@@ -553,9 +548,7 @@
         },
         {
           "name": "Mint",
-          "prefixTopics": [
-            "mint"
-          ],
+          "prefixTopics": ["mint"],
           "params": [
             {
               "name": "to",
@@ -576,9 +569,7 @@
         },
         {
           "name": "Approve",
-          "prefixTopics": [
-            "approve"
-          ],
+          "prefixTopics": ["approve"],
           "params": [
             {
               "name": "from",
@@ -613,9 +604,7 @@
         },
         {
           "name": "Transfer",
-          "prefixTopics": [
-            "transfer"
-          ],
+          "prefixTopics": ["transfer"],
           "params": [
             {
               "name": "from",
@@ -643,9 +632,7 @@
         },
         {
           "name": "MemoAttached",
-          "prefixTopics": [
-            "memo"
-          ],
+          "prefixTopics": ["memo"],
           "params": [
             {
               "name": "from",

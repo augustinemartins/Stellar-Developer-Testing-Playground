@@ -10,18 +10,20 @@ const PRESETS = Object.values(NETWORKS);
 
 export function useNetworkHealth() {
   const { network } = useSettings();
-  const [health, setHealth] = useState<NetworkHealth | null>(null);
+  // Results are tagged with the network they belong to, so switching networks shows "checking…" until the new result arrives.
+  const key = `${network.rpcUrl}|${network.networkPassphrase}`;
+  const [result, setResult] = useState<{ key: string; health: NetworkHealth } | null>(null);
   useEffect(() => {
     let cancelled = false;
-    setHealth(null);
-    checkNetwork(network).then((h) => !cancelled && setHealth(h));
-    const t = setInterval(() => checkNetwork(network).then((h) => !cancelled && setHealth(h)), 60_000);
+    const check = () => checkNetwork(network).then((health) => !cancelled && setResult({ key, health }));
+    check();
+    const t = setInterval(check, 60_000);
     return () => {
       cancelled = true;
       clearInterval(t);
     };
-  }, [network]);
-  return health;
+  }, [network, key]);
+  return result?.key === key ? result.health : null;
 }
 
 export function NetworkSelector() {
@@ -33,11 +35,6 @@ export function NetworkSelector() {
   const [error, setError] = useState<string | null>(null);
   const panelId = useId();
   const ref = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    setRpcUrl(network.rpcUrl);
-    setPassphrase(network.networkPassphrase);
-  }, [network]);
 
   useEffect(() => {
     if (!open) return;
@@ -85,7 +82,15 @@ export function NetworkSelector() {
         type="button"
         aria-expanded={open}
         aria-controls={panelId}
-        onClick={() => setOpen((o) => !o)}
+        onClick={() => {
+          // Start the custom RPC form from the current network each time the panel opens.
+          if (!open) {
+            setRpcUrl(network.rpcUrl);
+            setPassphrase(network.networkPassphrase);
+            setError(null);
+          }
+          setOpen(!open);
+        }}
         className="inline-flex h-9 items-center gap-2 rounded-md border border-border bg-panel px-2.5 text-sm hover:bg-panel-2"
         title={status}
       >
@@ -135,7 +140,11 @@ export function NetworkSelector() {
             </label>
             <label className="block text-xs">
               Network passphrase
-              <input className={cx(inputClass, "mt-1 font-mono text-xs")} value={passphrase} onChange={(e) => setPassphrase(e.target.value)} />
+              <input
+                className={cx(inputClass, "mt-1 font-mono text-xs")}
+                value={passphrase}
+                onChange={(e) => setPassphrase(e.target.value)}
+              />
             </label>
             {error && (
               <p role="alert" className="text-xs text-bad">

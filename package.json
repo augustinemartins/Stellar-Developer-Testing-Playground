@@ -17,8 +17,9 @@
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
     "test:testnet": "STELLAR_PLAYGROUND_TESTNET=1 vitest run --project integration",
+    "test:e2e": "playwright test",
     "typecheck": "pnpm -r --parallel typecheck",
-    "lint": "eslint .",
+    "lint": "eslint . --max-warnings=0",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "scenarios:run": "tsx scripts/run-scenarios.ts",
@@ -27,15 +28,19 @@
     "check": "pnpm lint && pnpm typecheck && pnpm test && pnpm build"
   },
   "devDependencies": {
+    "@axe-core/playwright": "4.11.0",
     "@eslint/js": "9.37.0",
+    "@playwright/test": "1.63.0",
     "@stellar/stellar-sdk": "17.2.1",
     "@types/node": "24.10.1",
     "@vitest/coverage-v8": "5.0.4",
     "eslint": "9.37.0",
+    "eslint-config-next": "16.4.3",
+    "globals": "16.4.0",
     "prettier": "3.6.2",
     "tsx": "4.20.6",
     "typescript": "5.9.3",
-    "typescript-eslint": "8.46.1",
+    "typescript-eslint": "8.72.1",
     "vitest": "5.0.4"
   }
 }
