@@ -31,20 +31,20 @@ docker run --rm -p 3000:3000 stellar-playground
 
 ## Scripts
 
-| Command                      | What it does                                                        |
-| ---------------------------- | ------------------------------------------------------------------- |
-| `pnpm dev`                   | Start the web app in development mode                               |
-| `pnpm build` / `start`       | Production build / serve it                                         |
-| `pnpm test`                  | Unit and component tests (offline, using recorded RPC fixtures)     |
-| `pnpm test:coverage`         | The same, with a coverage report                                    |
-| `pnpm test:testnet`          | Integration tests against Stellar testnet                           |
-| `pnpm test:e2e`              | Browser tests (Playwright) against a production build; uses testnet |
-| `pnpm lint` / `format`       | ESLint / Prettier                                                   |
-| `pnpm typecheck`             | TypeScript across all packages                                      |
-| `pnpm check`                 | Lint, typecheck, test and build                                     |
-| `pnpm scenarios:run <files>` | Replay scenario files and report pass/fail                          |
-| `pnpm contracts:build`       | Build the sample contracts                                          |
-| `pnpm contracts:deploy`      | Redeploy the samples to testnet (needed after a testnet reset)      |
+| Command                      | What it does                                                                     |
+| ---------------------------- | -------------------------------------------------------------------------------- |
+| `pnpm dev`                   | Start the web app in development mode                                            |
+| `pnpm build` / `start`       | Production build / serve it                                                      |
+| `pnpm test`                  | Unit and component tests (offline, using recorded RPC fixtures)                  |
+| `pnpm test:coverage`         | The same, with a coverage report                                                 |
+| `pnpm test:testnet`          | Integration tests against Stellar testnet                                        |
+| `pnpm test:e2e`              | Browser tests at desktop and phone size, with accessibility checks; uses testnet |
+| `pnpm lint` / `format`       | ESLint / Prettier                                                                |
+| `pnpm typecheck`             | TypeScript across all packages                                                   |
+| `pnpm check`                 | Lint, typecheck, test and build                                                  |
+| `pnpm scenarios:run <files>` | Replay scenario files and report pass/fail                                       |
+| `pnpm contracts:build`       | Build the sample contracts                                                       |
+| `pnpm contracts:deploy`      | Redeploy the samples to testnet (needed after a testnet reset)                   |
 
 ## Project layout
 

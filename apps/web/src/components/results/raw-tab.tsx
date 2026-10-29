@@ -9,7 +9,12 @@ function Block({ title, text }: { title: string; text: string }) {
         <h3 className="text-sm font-semibold">{title}</h3>
         <CopyButton text={text} />
       </div>
-      <pre className="max-h-80 overflow-auto rounded-md border border-border bg-panel-2 p-3 font-mono text-[11.5px] leading-5 break-all whitespace-pre-wrap">
+      <pre
+        tabIndex={0}
+        role="region"
+        aria-label={title}
+        className="max-h-80 overflow-auto rounded-md border border-border bg-panel-2 p-3 font-mono text-[11.5px] leading-5 break-all whitespace-pre-wrap"
+      >
         {text}
       </pre>
     </section>

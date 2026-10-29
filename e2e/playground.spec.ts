@@ -1,17 +1,5 @@
-import { expect, test, type Page } from "@playwright/test";
-
-const SHOTS = process.env.E2E_SCREENSHOTS;
-
-function trackErrors(page: Page): string[] {
-  const errors: string[] = [];
-  page.on("console", (m) => m.type() === "error" && errors.push(m.text()));
-  page.on("pageerror", (e) => errors.push(e.message));
-  return errors;
-}
-
-async function shot(page: Page, name: string) {
-  if (SHOTS) await page.screenshot({ path: `${SHOTS}/${name}.png`, fullPage: true });
-}
+import { expect, test } from "@playwright/test";
+import { shot, trackErrors } from "./helpers";
 
 test("load a sample, simulate, inspect and replay a saved scenario", async ({ page }) => {
   const errors = trackErrors(page);

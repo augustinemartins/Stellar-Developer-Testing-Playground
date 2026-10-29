@@ -86,9 +86,14 @@ export function JsonInline({ value, className }: { value: JsonValue | undefined;
   return <code className={cx("font-mono text-[12.5px] break-all", className)}>{value === undefined ? "—" : JSON.stringify(value)}</code>;
 }
 
-export function JsonBlock({ value, className }: { value: unknown; className?: string }) {
+export function JsonBlock({ value, className, label = "JSON value" }: { value: unknown; className?: string; label?: string }) {
   return (
-    <pre className={cx("max-h-96 overflow-auto rounded-md border border-border bg-panel-2 p-3 font-mono text-[12px] leading-5", className)}>
+    <pre
+      tabIndex={0}
+      role="region"
+      aria-label={label}
+      className={cx("max-h-96 overflow-auto rounded-md border border-border bg-panel-2 p-3 font-mono text-[12px] leading-5", className)}
+    >
       {JSON.stringify(value, null, 2)}
     </pre>
   );

@@ -1,7 +1,8 @@
 "use client";
-import { useEffect, useId, useState } from "react";
+import { useId, useState } from "react";
 import { exampleValue } from "@playground/contract-loader";
 import { findUdt, formatType, type ContractSpec, type FunctionInput, type JsonValue, type TypeDef } from "@playground/shared-types";
+import { sameJson } from "@/lib/json";
 import { Badge, cx, inputClass } from "../ui";
 
 const INT_KINDS = new Set(["u32", "i32"]);
@@ -266,16 +267,11 @@ function JsonField({
   const [syntax, setSyntax] = useState<string | null>(null);
 
   // Follow external changes (e.g. loading a suggested call) unless the user is mid-edit with invalid JSON.
-  useEffect(() => {
-    if (syntax) return;
-    try {
-      if (JSON.stringify(JSON.parse(draft)) === JSON.stringify(JSON.parse(external))) return;
-    } catch {
-      /* fall through */
-    }
-    setDraft(external);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [external]);
+  const [seen, setSeen] = useState(external);
+  if (seen !== external) {
+    setSeen(external);
+    if (!syntax && !sameJson(draft, external)) setDraft(external);
+  }
 
   const lines = Math.min(12, Math.max(3, draft.split("\n").length));
   return (

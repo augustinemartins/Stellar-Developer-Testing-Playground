@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+import { sameJson } from "@/lib/json";
 import { useEffect, useId, useMemo, useState } from "react";
 import { Braces, KeyRound, ListChecks, Play, Sparkles } from "lucide-react";
 import { Keypair, StrKey } from "@stellar/stellar-sdk";
@@ -30,10 +31,14 @@ export function FunctionPanel({ ws }: { ws: Workspace }) {
   const spec = load.status === "ready" ? load.contract.spec : null;
   const sample = load.status === "ready" ? load.sample : undefined;
 
-  useEffect(() => {
-    if (mode === "json" && !jsonSyntax) setJsonText(JSON.stringify(ws.args, null, 2));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [mode, ws.method, ws.args]);
+  // In JSON mode, follow outside changes to the arguments (another method, a suggested call),
+  // but never rewrite what the user is typing when it already matches.
+  const argsJson = JSON.stringify(ws.args, null, 2);
+  const [seenArgs, setSeenArgs] = useState(argsJson);
+  if (seenArgs !== argsJson) {
+    setSeenArgs(argsJson);
+    if (mode === "json" && !jsonSyntax && !sameJson(jsonText, argsJson)) setJsonText(argsJson);
+  }
 
   const schema = useMemo(() => (fn && spec ? argsJsonSchema(fn, spec) : undefined), [fn, spec]);
   const suggestions = useMemo(() => {
@@ -43,6 +48,20 @@ export function FunctionPanel({ ws }: { ws: Workspace }) {
     if (load.status === "ready") s.add(load.contract.contractId);
     return [...s];
   }, [sample, ws.source, load]);
+
+  // Ctrl/⌘+Enter simulates from anywhere in the workspace, e.g. right after picking a method.
+  // The JSON editor handles the shortcut itself and marks the event as handled.
+  const { simulate } = ws;
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === "Enter" && !e.defaultPrevented) {
+        e.preventDefault();
+        simulate();
+      }
+    };
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [simulate]);
 
   if (!fn || !spec) return null;
   const errorsFor = (name: string) =>
@@ -58,12 +77,6 @@ export function FunctionPanel({ ws }: { ws: Workspace }) {
       onSubmit={(e) => {
         e.preventDefault();
         ws.simulate();
-      }}
-      onKeyDown={(e) => {
-        if ((e.metaKey || e.ctrlKey) && e.key === "Enter") {
-          e.preventDefault();
-          ws.simulate();
-        }
       }}
     >
       <header className="space-y-1.5">
@@ -117,6 +130,7 @@ export function FunctionPanel({ ws }: { ws: Workspace }) {
                   aria-pressed={mode === m}
                   onClick={() => {
                     setJsonSyntax(null);
+                    if (m === "json") setJsonText(argsJson);
                     setMode(m);
                   }}
                   className={cx("inline-flex items-center gap-1 rounded px-2 py-1", mode === m ? "bg-panel-2 font-medium" : "text-muted")}

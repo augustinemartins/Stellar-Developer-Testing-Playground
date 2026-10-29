@@ -3,12 +3,16 @@
  * packages/contract-loader/src/fixtures/deployments.json.
  *
  *   pnpm contracts:deploy
+ *   pnpm contracts:deploy --if-missing   # only redeploy if testnet lost them (used by CI)
+ *
+ * After a redeploy the example scenarios are re-recorded, since they pin the contract IDs.
  *
  * Testnet is reset periodically; re-run this script after a reset. It uses a
  * fresh, friendbot-funded throwaway account every time and never needs a
  * secret from you. Override the network with STELLAR_RPC_URL and
  * STELLAR_NETWORK_PASSPHRASE (e.g. for a local quickstart node).
  */
+import { execFileSync } from "node:child_process";
 import { readFileSync, writeFileSync } from "node:fs";
 import { createHash, randomBytes } from "node:crypto";
 import { dirname, join, resolve } from "node:path";
@@ -58,7 +62,30 @@ function invoke(contract: string, fn: string, args: xdr.ScVal[]) {
   return Operation.invokeContractFunction({ contract, function: fn, args });
 }
 
+const DEPLOYMENTS = join(root, "packages/contract-loader/src/fixtures/deployments.json");
+
+/** True if every recorded sample contract still exists on the network. */
+async function samplesExist(): Promise<boolean> {
+  const recorded = JSON.parse(readFileSync(DEPLOYMENTS, "utf8")) as { contracts: Record<string, { contractId: string }> };
+  for (const [name, { contractId }] of Object.entries(recorded.contracts)) {
+    try {
+      await server.getContractInstance(contractId);
+    } catch (e) {
+      if ((e as { code?: unknown }).code === 404) {
+        console.log(`${name} (${contractId}) is missing from the network.`);
+        return false;
+      }
+      throw e;
+    }
+  }
+  return true;
+}
+
 async function main() {
+  if (process.argv.includes("--if-missing") && (await samplesExist())) {
+    console.log("Sample contracts are deployed; nothing to do.");
+    return;
+  }
   const deployer = Keypair.random();
   const holder = Keypair.random();
   console.log(`Network: ${RPC_URL}`);
@@ -94,9 +121,12 @@ async function main() {
     accounts: { owner: deployer.publicKey(), holder: holder.publicKey() },
     contracts: { counter, "sample-token": token },
   };
-  const out = join(root, "packages/contract-loader/src/fixtures/deployments.json");
-  writeFileSync(out, JSON.stringify(deployments, null, 2) + "\n");
-  console.log(`Wrote ${out}`);
+  writeFileSync(DEPLOYMENTS, JSON.stringify(deployments, null, 2) + "\n");
+  console.log(`Wrote ${DEPLOYMENTS}`);
+
+  // Separate process: the sample registry reads deployments.json when it is first imported.
+  console.log("Re-recording example scenarios…");
+  execFileSync("pnpm", ["exec", "tsx", "scripts/record-examples.ts"], { cwd: root, stdio: "inherit" });
 }
 
 main().catch((e) => {

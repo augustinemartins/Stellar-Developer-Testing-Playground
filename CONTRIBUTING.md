@@ -19,7 +19,7 @@ pnpm check          # lint, typecheck, unit tests, build
 pnpm format         # apply Prettier
 ```
 
-If you changed the UI, also run the browser tests (they need Chromium and use testnet):
+If you changed the UI, also run the browser tests. They need Chromium, use testnet, and run every flow at desktop and phone size, including automated WCAG 2.1 AA checks (axe) in light and dark themes:
 
 ```sh
 pnpm exec playwright install --with-deps chromium

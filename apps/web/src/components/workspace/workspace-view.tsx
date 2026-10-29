@@ -171,7 +171,7 @@ function WorkspaceView(props: Parameters<typeof useWorkspace>[0]) {
       ) : (
         <div className="mx-auto grid w-full max-w-[1600px] flex-1 grid-cols-1 lg:grid-cols-[240px_minmax(360px,1fr)_minmax(420px,1.25fr)]">
           <aside className="border-b border-border bg-panel lg:sticky lg:top-14 lg:h-[calc(100dvh-3.5rem)] lg:border-b-0 lg:border-r">
-            <div className="max-h-72 lg:h-full lg:max-h-none">
+            <div className="flex max-h-72 flex-col lg:h-full lg:max-h-none">
               <MethodList functions={ws.functions} selected={ws.method} onSelect={ws.setMethod} />
             </div>
           </aside>

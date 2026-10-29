@@ -58,8 +58,8 @@ jobs:
   testnet:
     name: Testnet (scenarios, integration, browser)
     runs-on: ubuntu-latest
-    # Depends on a public network, so it does not block pull requests.
-    if: github.event_name != 'pull_request'
+    # Testnet resets are handled by `contracts:deploy --if-missing` below, so this also runs on pull requests.
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
@@ -68,6 +68,8 @@ jobs:
           node-version-file: .nvmrc
           cache: pnpm
       - run: pnpm install --frozen-lockfile
+      # Testnet resets delete the samples; redeploy them for this run if needed.
+      - run: pnpm contracts:deploy --if-missing
       - run: pnpm scenarios:run examples/scenarios/*.json
       - run: pnpm test:testnet
       - run: pnpm build

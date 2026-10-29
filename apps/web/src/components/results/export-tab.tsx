@@ -109,7 +109,12 @@ export function ExportTab({
             </span>
           </label>
           {lock && scenario.expect && (
-            <pre className="max-h-40 overflow-auto rounded-md border border-border bg-panel-2 p-2 font-mono text-[11px]">
+            <pre
+              tabIndex={0}
+              role="region"
+              aria-label="Locked expectations"
+              className="max-h-40 overflow-auto rounded-md border border-border bg-panel-2 p-2 font-mono text-[11px]"
+            >
               {JSON.stringify(scenario.expect, null, 2)}
             </pre>
           )}
@@ -202,7 +207,14 @@ export function ExportTab({
             <h4 className="text-xs font-semibold uppercase tracking-wide text-muted">Stellar CLI</h4>
             <CopyButton text={cli} />
           </div>
-          <pre className="max-h-48 overflow-auto rounded-md border border-border bg-panel-2 p-2 font-mono text-[11px] leading-5">{cli}</pre>
+          <pre
+            tabIndex={0}
+            role="region"
+            aria-label="Stellar CLI command"
+            className="max-h-48 overflow-auto rounded-md border border-border bg-panel-2 p-2 font-mono text-[11px] leading-5"
+          >
+            {cli}
+          </pre>
         </div>
         <div className="flex flex-wrap gap-2">
           <CopyButton text={scenarioToCurl(scenario)} label="Copy curl request" size="md" />

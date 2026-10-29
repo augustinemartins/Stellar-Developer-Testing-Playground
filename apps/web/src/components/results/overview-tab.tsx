@@ -49,7 +49,12 @@ export function OverviewTab({ run }: { run: SimulationRun }) {
           )}
           <details className="rounded-md border border-border">
             <summary className="cursor-pointer px-3 py-2 text-sm">Full error from the RPC</summary>
-            <pre className="max-h-80 overflow-auto border-t border-border bg-panel-2 p-3 font-mono text-[11.5px] leading-5 whitespace-pre-wrap">
+            <pre
+              tabIndex={0}
+              role="region"
+              aria-label="Full error from the RPC"
+              className="max-h-80 overflow-auto border-t border-border bg-panel-2 p-3 font-mono text-[11.5px] leading-5 whitespace-pre-wrap"
+            >
               {r.error.raw}
             </pre>
           </details>

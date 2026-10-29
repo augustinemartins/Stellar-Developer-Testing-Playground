@@ -65,8 +65,12 @@ export async function parseSpecFile(file: File): Promise<ContractSpec> {
 
 export function useWorkspace({ contractId, sampleSlug, initialMethod, scenario }: WorkspaceOptions) {
   const { network, setNetwork, addRecent } = useSettings();
-  const [load, setLoad] = useState<LoadState>({ status: "loading" });
   const [reloadKey, setReloadKey] = useState(0);
+  // Everything that should trigger a fresh load. Results are tagged with it, so a stale
+  // result never shows for a new contract or network: until the new one arrives, it's "loading".
+  const loadKey = `${contractId}|${network.rpcUrl}|${network.networkPassphrase}|${reloadKey}|${scenario?.id ?? ""}`;
+  const [loaded, setLoaded] = useState<{ key: string; state: LoadState } | null>(null);
+  const load = useMemo<LoadState>(() => (loaded?.key === loadKey ? loaded.state : { status: "loading" }), [loaded, loadKey]);
   const [method, setMethod] = useState<string | null>(initialMethod ?? scenario?.invocation.method ?? null);
   const [argsByMethod, setArgsByMethod] = useState<Record<string, Record<string, JsonValue>>>(
     scenario ? { [scenario.invocation.method]: scenario.invocation.args } : {},
@@ -80,6 +84,15 @@ export function useWorkspace({ contractId, sampleSlug, initialMethod, scenario }
   const [selectedRun, setSelectedRun] = useState(0);
   const [limits, setLimits] = useState<NetworkLimits | null>(null);
   const abortRef = useRef(0);
+
+  // Run history belongs to one loaded contract; clear it when a new load starts.
+  const [historyKey, setHistoryKey] = useState(loadKey);
+  if (historyKey !== loadKey) {
+    setHistoryKey(loadKey);
+    setHistory([]);
+    setSelectedRun(0);
+    setRunError(null);
+  }
 
   // A scenario carries its own network; adopt it so replays are faithful.
   useEffect(() => {
@@ -100,9 +113,7 @@ export function useWorkspace({ contractId, sampleSlug, initialMethod, scenario }
   useEffect(() => {
     let cancelled = false;
     const ticket = ++abortRef.current;
-    setLoad({ status: "loading" });
-    setHistory([]);
-    setRunError(null);
+    const setLoad = (state: LoadState) => setLoaded({ key: loadKey, state });
 
     const ready = (contract: LoadedContract, label?: string, warning?: string) => {
       if (cancelled || ticket !== abortRef.current) return;
@@ -169,7 +180,7 @@ export function useWorkspace({ contractId, sampleSlug, initialMethod, scenario }
       cancelled = true;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [contractId, network.rpcUrl, network.networkPassphrase, reloadKey, scenario?.id]);
+  }, [loadKey]);
 
   useEffect(() => {
     let cancelled = false;
@@ -182,13 +193,8 @@ export function useWorkspace({ contractId, sampleSlug, initialMethod, scenario }
   const spec = load.status === "ready" ? load.contract.spec : null;
   const functions = useMemo(() => spec?.functions.filter((f) => !f.name.startsWith("__")) ?? [], [spec]);
 
-  // Pick a default method once the spec is known.
-  useEffect(() => {
-    if (!spec) return;
-    if (!method || !functions.some((f) => f.name === method)) setMethod(functions[0]?.name ?? null);
-  }, [spec, functions, method]);
-
-  const fn = functions.find((f) => f.name === method) ?? null;
+  // Fall back to the first method when none is chosen or the choice isn't in this spec.
+  const fn = functions.find((f) => f.name === method) ?? functions[0] ?? null;
   const args = useMemo<Record<string, JsonValue>>(
     () => (fn && spec ? (argsByMethod[fn.name] ?? exampleArgs(fn, spec)) : {}),
     [fn, spec, argsByMethod],
@@ -246,21 +252,24 @@ export function useWorkspace({ contractId, sampleSlug, initialMethod, scenario }
   const importSpec = useCallback(
     async (file: File) => {
       const spec = await parseSpecFile(file);
-      setLoad({
-        status: "ready",
-        contract: {
-          contractId,
-          networkPassphrase: network.networkPassphrase,
-          executable: { type: "unknown" },
-          spec,
-          specSource: "inline",
-          loadedAt: new Date().toISOString(),
+      setLoaded({
+        key: loadKey,
+        state: {
+          status: "ready",
+          contract: {
+            contractId,
+            networkPassphrase: network.networkPassphrase,
+            executable: { type: "unknown" },
+            spec,
+            specSource: "inline",
+            loadedAt: new Date().toISOString(),
+          },
+          label: file.name,
+          warning: "Using an imported spec. Simulations still run against the deployed contract, so the spec must match it.",
         },
-        label: file.name,
-        warning: "Using an imported spec. Simulations still run against the deployed contract, so the spec must match it.",
       });
     },
-    [contractId, network.networkPassphrase],
+    [contractId, network.networkPassphrase, loadKey],
   );
 
   const applySuggested = useCallback((m: string, a: Record<string, JsonValue>) => {
@@ -276,7 +285,7 @@ export function useWorkspace({ contractId, sampleSlug, initialMethod, scenario }
     importSpec,
     functions,
     fn,
-    method,
+    method: fn?.name ?? null,
     setMethod: (m: string) => {
       setMethod(m);
       setDraftErrors({});

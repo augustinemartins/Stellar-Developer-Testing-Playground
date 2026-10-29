@@ -16,15 +16,16 @@ The **Native XLM** sample is a Stellar Asset Contract whose ID is derived from t
 pnpm contracts:deploy
 ```
 
-The script funds two throwaway accounts with friendbot, uploads `contracts/artifacts/*.wasm`, creates both contracts with their constructors, mints 1000 PLAY to a demo holder and increments the counter. It writes the new IDs to `packages/contract-loader/src/fixtures/deployments.json`.
+The script funds two throwaway accounts with friendbot, uploads `contracts/artifacts/*.wasm`, creates both contracts with their constructors, mints 1000 PLAY to a demo holder and increments the counter. It writes the new IDs to `packages/contract-loader/src/fixtures/deployments.json` and re-records `examples/scenarios`, which pin the contract IDs.
 
-Then refresh the recorded fixtures and examples:
+Then refresh the offline unit-test fixtures and commit the changes:
 
 ```bash
-pnpm tsx scripts/capture-rpc-fixtures.ts   # offline unit-test fixtures
-pnpm tsx scripts/record-examples.ts        # examples/scenarios
+pnpm tsx scripts/capture-rpc-fixtures.ts
 pnpm test && pnpm test:testnet
 ```
+
+`pnpm contracts:deploy --if-missing` only redeploys when a recorded contract is gone. CI runs it before the testnet tests, so a reset doesn't break the build; commit the regenerated files afterwards so the hosted app points at the new contracts.
 
 No secret is required or stored: the deployer key is generated per run and discarded.
 

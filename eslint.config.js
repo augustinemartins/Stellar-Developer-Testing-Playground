@@ -30,15 +30,14 @@ export default tseslint.config(
     },
   },
   // Next.js, React, hooks and accessibility rules for the web app only.
-  ...nextVitals.map((c) => ({ ...c, files: ["apps/web/**/*.{ts,tsx,js,mjs}"] })),
+  ...nextVitals.map((c) => ({
+    ...c,
+    files: ["apps/web/**/*.{ts,tsx,js,mjs}"],
+    settings: { ...c.settings, next: { rootDir: "apps/web/" } },
+  })),
   {
     files: ["apps/web/**/*.{ts,tsx}"],
     languageOptions: { globals: { ...globals.browser } },
-    settings: { next: { rootDir: "apps/web" } },
-    rules: {
-      // The remaining hits reset state when a fetch starts or a draft's source changes, which is intended.
-      "react-hooks/set-state-in-effect": "warn",
-    },
   },
   {
     files: ["**/test/**", "**/*.test.{ts,tsx}", "tests/**", "e2e/**"],
