@@ -1,0 +1,17 @@
+node_modules/
+.next/
+out/
+coverage/
+dist/
+*.tsbuildinfo
+.env*
+!.env.example
+.DS_Store
+# Rust
+contracts/target/
+# Monaco is copied into public at install time
+apps/web/public/monaco/
+.vercel
+playwright-report/
+test-results/
+contracts/**/test_snapshots/

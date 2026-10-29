@@ -1,0 +1,487 @@
+{
+  "schema": "stellar-playground/scenario",
+  "version": 1,
+  "id": "counter-reset-auth",
+  "name": "Counter: Reset as owner",
+  "description": "Requires the owner's signature. The Auth tab shows the authorization entry a wallet would sign.",
+  "tags": [
+    "counter",
+    "auth"
+  ],
+  "createdAt": "2026-10-29T11:01:52.698Z",
+  "updatedAt": "2026-10-29T11:01:52.698Z",
+  "network": {
+    "id": "testnet",
+    "rpcUrl": "https://soroban-testnet.stellar.org",
+    "networkPassphrase": "Test SDF Network ; September 2015",
+    "friendbotUrl": "https://friendbot.stellar.org"
+  },
+  "contract": {
+    "id": "CCXDNSDDFAEBDFNKTCWHVPGDSED37GMTFWDEY6Q4DMXBQ3BUHY3UMTJW",
+    "label": "Counter",
+    "spec": {
+      "functions": [
+        {
+          "name": "get",
+          "doc": "Returns the current count.",
+          "inputs": [],
+          "outputs": [
+            {
+              "kind": "u32"
+            }
+          ]
+        },
+        {
+          "name": "reset",
+          "doc": "Resets the counter to zero. Requires the owner's authorization.",
+          "inputs": [
+            {
+              "name": "caller",
+              "type": {
+                "kind": "address"
+              }
+            }
+          ],
+          "outputs": [
+            {
+              "kind": "result",
+              "ok": {
+                "kind": "u32"
+              },
+              "error": {
+                "kind": "udt",
+                "name": "CounterError"
+              }
+            }
+          ]
+        },
+        {
+          "name": "stats",
+          "doc": "Returns a structured snapshot of the counter state.",
+          "inputs": [],
+          "outputs": [
+            {
+              "kind": "udt",
+              "name": "CounterStats"
+            }
+          ]
+        },
+        {
+          "name": "increment",
+          "doc": "Adds one to the counter and returns the new value.",
+          "inputs": [],
+          "outputs": [
+            {
+              "kind": "result",
+              "ok": {
+                "kind": "u32"
+              },
+              "error": {
+                "kind": "udt",
+                "name": "CounterError"
+              }
+            }
+          ]
+        },
+        {
+          "name": "increment_by",
+          "doc": "Adds `step` (1..=100) to the counter and returns the new value.",
+          "inputs": [
+            {
+              "name": "step",
+              "type": {
+                "kind": "u32"
+              }
+            }
+          ],
+          "outputs": [
+            {
+              "kind": "result",
+              "ok": {
+                "kind": "u32"
+              },
+              "error": {
+                "kind": "udt",
+                "name": "CounterError"
+              }
+            }
+          ]
+        },
+        {
+          "name": "__constructor",
+          "doc": "Deploys the counter with an owner who is allowed to reset it.",
+          "inputs": [
+            {
+              "name": "owner",
+              "type": {
+                "kind": "address"
+              }
+            }
+          ],
+          "outputs": []
+        }
+      ],
+      "types": [
+        {
+          "kind": "error_enum",
+          "name": "CounterError",
+          "cases": [
+            {
+              "name": "Overflow",
+              "doc": "The counter would exceed `u32::MAX`.",
+              "value": 1
+            },
+            {
+              "name": "InvalidStep",
+              "doc": "The step passed to `increment_by` is zero or larger than `MAX_STEP`.",
+              "value": 2
+            },
+            {
+              "name": "NotOwner",
+              "doc": "The caller is not the owner recorded at deployment.",
+              "value": 3
+            }
+          ]
+        },
+        {
+          "kind": "struct",
+          "name": "CounterStats",
+          "doc": "Snapshot of the counter state.",
+          "fields": [
+            {
+              "name": "count",
+              "type": {
+                "kind": "u32"
+              }
+            },
+            {
+              "name": "last_step",
+              "type": {
+                "kind": "u32"
+              }
+            },
+            {
+              "name": "max_step",
+              "type": {
+                "kind": "u32"
+              }
+            },
+            {
+              "name": "owner",
+              "type": {
+                "kind": "address"
+              }
+            }
+          ]
+        }
+      ],
+      "events": [
+        {
+          "name": "Reset",
+          "doc": "Emitted when the owner resets the counter.",
+          "prefixTopics": [
+            "reset"
+          ],
+          "params": [
+            {
+              "name": "owner",
+              "type": {
+                "kind": "address"
+              },
+              "location": "topic"
+            },
+            {
+              "name": "previous",
+              "type": {
+                "kind": "u32"
+              },
+              "location": "data"
+            }
+          ],
+          "dataFormat": "map"
+        },
+        {
+          "name": "Incremented",
+          "doc": "Emitted every time the counter changes.",
+          "prefixTopics": [
+            "incremented"
+          ],
+          "params": [
+            {
+              "name": "step",
+              "type": {
+                "kind": "u32"
+              },
+              "location": "topic"
+            },
+            {
+              "name": "count",
+              "type": {
+                "kind": "u32"
+              },
+              "location": "data"
+            }
+          ],
+          "dataFormat": "map"
+        }
+      ]
+    },
+    "wasmHash": "12d888d354d2d6a40e52e3ef2a71e54f61a26130bdb3d15d35cd7178d1966730"
+  },
+  "invocation": {
+    "method": "reset",
+    "args": {
+      "caller": "GA2MRJ5ETJBGSTYZQJHY7KV5YZOE24DPVBIB22LZSBETJ4HOVXX437CI"
+    },
+    "authMode": "record"
+  },
+  "expect": {
+    "status": "success",
+    "returnValue": 6,
+    "maxResourceFee": "152279",
+    "maxInstructions": 1666332,
+    "contractEventCount": 1,
+    "requiredAuth": [
+      "GA2MRJ5ETJBGSTYZQJHY7KV5YZOE24DPVBIB22LZSBETJ4HOVXX437CI"
+    ]
+  },
+  "recorded": {
+    "at": "2026-10-29T11:01:52.446Z",
+    "latestLedger": 5449614,
+    "argsXdr": [
+      "AAAAEgAAAAAAAAAANMinpJpCaU8Zgk+Pqr3GXE1wb6hQHWl5kEk08O6t780="
+    ],
+    "transactionXdr": "AAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAGQAAAAAAAAAAQAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAGAAAAAAAAAABrjbIYygIEZWqmKx6vMORB7+Zky2GTHocGy4YbDQ+N0YAAAAFcmVzZXQAAAAAAAABAAAAEgAAAAAAAAAANMinpJpCaU8Zgk+Pqr3GXE1wb6hQHWl5kEk08O6t780AAAAAAAAAAAAAAAA=",
+    "report": {
+      "status": "success",
+      "latestLedger": 5449614,
+      "returnValue": {
+        "xdr": "AAAAAwAAAAY=",
+        "type": "u32",
+        "json": 6
+      },
+      "returnValueTyped": 6,
+      "fees": {
+        "minResourceFee": "121823",
+        "inclusionFee": "100"
+      },
+      "resources": {
+        "instructions": 1333065,
+        "diskReadBytes": 144,
+        "writeBytes": 328,
+        "readOnlyEntries": 2,
+        "readWriteEntries": 2,
+        "txSizeBytes": 580,
+        "footprint": {
+          "readOnly": [
+            {
+              "xdr": "AAAAAAAAAAA0yKekmkJpTxmCT4+qvcZcTXBvqFAdaXmQSTTw7q3vzQ==",
+              "type": "account",
+              "accountId": "GA2MRJ5ETJBGSTYZQJHY7KV5YZOE24DPVBIB22LZSBETJ4HOVXX437CI",
+              "label": "account GA2M…37CI"
+            },
+            {
+              "xdr": "AAAABxLYiNNU0takDlLj7ypx5U9homEwvbPRXTXNcXjRlmcw",
+              "type": "contract_code",
+              "label": "WASM 12d888d354d2…"
+            }
+          ],
+          "readWrite": [
+            {
+              "xdr": "AAAABgAAAAAAAAAANMinpJpCaU8Zgk+Pqr3GXE1wb6hQHWl5kEk08O6t780AAAAVAWW7sQfzzDwAAAAA",
+              "type": "contract_data",
+              "contractId": "GA2MRJ5ETJBGSTYZQJHY7KV5YZOE24DPVBIB22LZSBETJ4HOVXX437CI",
+              "durability": "temporary",
+              "key": {
+                "xdr": "AAAAFQFlu7EH88w8",
+                "type": "ledger_key_nonce",
+                "json": {
+                  "nonce": "100692935702727740"
+                }
+              },
+              "label": "auth nonce 100692935702727740 · temporary · GA2M…37CI"
+            },
+            {
+              "xdr": "AAAABgAAAAGuNshjKAgRlaqYrHq8w5EHv5mTLYZMehwbLhhsND43RgAAABQAAAAB",
+              "type": "contract_data",
+              "contractId": "CCXDNSDDFAEBDFNKTCWHVPGDSED37GMTFWDEY6Q4DMXBQ3BUHY3UMTJW",
+              "durability": "persistent",
+              "key": {
+                "xdr": "AAAAFA==",
+                "type": "ledger_key_contract_instance",
+                "json": "<contract instance>"
+              },
+              "label": "instance · persistent · CCXD…MTJW"
+            }
+          ]
+        }
+      },
+      "auth": [
+        {
+          "credentials": "address",
+          "address": "GA2MRJ5ETJBGSTYZQJHY7KV5YZOE24DPVBIB22LZSBETJ4HOVXX437CI",
+          "nonce": "100692935702727740",
+          "signatureExpirationLedger": 0,
+          "invocation": {
+            "kind": "contract_fn",
+            "contractId": "CCXDNSDDFAEBDFNKTCWHVPGDSED37GMTFWDEY6Q4DMXBQ3BUHY3UMTJW",
+            "functionName": "reset",
+            "args": [
+              {
+                "type": "address",
+                "json": "GA2MRJ5ETJBGSTYZQJHY7KV5YZOE24DPVBIB22LZSBETJ4HOVXX437CI"
+              }
+            ],
+            "subInvocations": []
+          },
+          "xdr": "AAAAAgAAAAAAAAAANMinpJpCaU8Zgk+Pqr3GXE1wb6hQHWl5kEk08O6t780BZbuxB/PMPAAAAAAAAAABAAAAAAAAAAGuNshjKAgRlaqYrHq8w5EHv5mTLYZMehwbLhhsND43RgAAAAVyZXNldAAAAAAAAAEAAAASAAAAAAAAAAA0yKekmkJpTxmCT4+qvcZcTXBvqFAdaXmQSTTw7q3vzQAAAAA="
+        }
+      ],
+      "events": [
+        {
+          "index": 0,
+          "type": "diagnostic",
+          "inSuccessfulContractCall": true,
+          "topics": [
+            {
+              "xdr": "AAAADwAAAAdmbl9jYWxsAA==",
+              "type": "symbol",
+              "json": "fn_call"
+            },
+            {
+              "xdr": "AAAADQAAACCuNshjKAgRlaqYrHq8w5EHv5mTLYZMehwbLhhsND43Rg==",
+              "type": "bytes",
+              "json": "ae36c86328081195aa98ac7abcc39107bf99932d864c7a1c1b2e186c343e3746"
+            },
+            {
+              "xdr": "AAAADwAAAAVyZXNldAAAAA==",
+              "type": "symbol",
+              "json": "reset"
+            }
+          ],
+          "data": {
+            "xdr": "AAAAEgAAAAAAAAAANMinpJpCaU8Zgk+Pqr3GXE1wb6hQHWl5kEk08O6t780=",
+            "type": "address",
+            "json": "GA2MRJ5ETJBGSTYZQJHY7KV5YZOE24DPVBIB22LZSBETJ4HOVXX437CI"
+          },
+          "xdr": "AAAAAQAAAAAAAAAAAAAAAgAAAAAAAAADAAAADwAAAAdmbl9jYWxsAAAAAA0AAAAgrjbIYygIEZWqmKx6vMORB7+Zky2GTHocGy4YbDQ+N0YAAAAPAAAABXJlc2V0AAAAAAAAEgAAAAAAAAAANMinpJpCaU8Zgk+Pqr3GXE1wb6hQHWl5kEk08O6t780=",
+          "name": "fn_call",
+          "params": {
+            "contract": "CCXDNSDDFAEBDFNKTCWHVPGDSED37GMTFWDEY6Q4DMXBQ3BUHY3UMTJW",
+            "function": "reset"
+          }
+        },
+        {
+          "index": 1,
+          "type": "contract",
+          "contractId": "CCXDNSDDFAEBDFNKTCWHVPGDSED37GMTFWDEY6Q4DMXBQ3BUHY3UMTJW",
+          "inSuccessfulContractCall": true,
+          "topics": [
+            {
+              "xdr": "AAAADwAAAAVyZXNldAAAAA==",
+              "type": "symbol",
+              "json": "reset"
+            },
+            {
+              "xdr": "AAAAEgAAAAAAAAAANMinpJpCaU8Zgk+Pqr3GXE1wb6hQHWl5kEk08O6t780=",
+              "type": "address",
+              "json": "GA2MRJ5ETJBGSTYZQJHY7KV5YZOE24DPVBIB22LZSBETJ4HOVXX437CI"
+            }
+          ],
+          "data": {
+            "xdr": "AAAAEQAAAAEAAAABAAAADwAAAAhwcmV2aW91cwAAAAMAAAAG",
+            "type": "map",
+            "json": {
+              "previous": 6
+            }
+          },
+          "xdr": "AAAAAQAAAAAAAAABrjbIYygIEZWqmKx6vMORB7+Zky2GTHocGy4YbDQ+N0YAAAABAAAAAAAAAAIAAAAPAAAABXJlc2V0AAAAAAAAEgAAAAAAAAAANMinpJpCaU8Zgk+Pqr3GXE1wb6hQHWl5kEk08O6t780AAAARAAAAAQAAAAEAAAAPAAAACHByZXZpb3VzAAAAAwAAAAY=",
+          "name": "Reset",
+          "params": {
+            "owner": "GA2MRJ5ETJBGSTYZQJHY7KV5YZOE24DPVBIB22LZSBETJ4HOVXX437CI",
+            "previous": 6
+          }
+        },
+        {
+          "index": 2,
+          "type": "diagnostic",
+          "contractId": "CCXDNSDDFAEBDFNKTCWHVPGDSED37GMTFWDEY6Q4DMXBQ3BUHY3UMTJW",
+          "inSuccessfulContractCall": true,
+          "topics": [
+            {
+              "xdr": "AAAADwAAAAlmbl9yZXR1cm4AAAA=",
+              "type": "symbol",
+              "json": "fn_return"
+            },
+            {
+              "xdr": "AAAADwAAAAVyZXNldAAAAA==",
+              "type": "symbol",
+              "json": "reset"
+            }
+          ],
+          "data": {
+            "xdr": "AAAAAwAAAAY=",
+            "type": "u32",
+            "json": 6
+          },
+          "xdr": "AAAAAQAAAAAAAAABrjbIYygIEZWqmKx6vMORB7+Zky2GTHocGy4YbDQ+N0YAAAACAAAAAAAAAAIAAAAPAAAACWZuX3JldHVybgAAAAAAAA8AAAAFcmVzZXQAAAAAAAADAAAABg==",
+          "name": "fn_return"
+        }
+      ],
+      "stateChanges": [
+        {
+          "type": "created",
+          "key": {
+            "xdr": "AAAABgAAAAAAAAAANMinpJpCaU8Zgk+Pqr3GXE1wb6hQHWl5kEk08O6t780AAAAVAWW7sQfzzDwAAAAA",
+            "type": "contract_data",
+            "contractId": "GA2MRJ5ETJBGSTYZQJHY7KV5YZOE24DPVBIB22LZSBETJ4HOVXX437CI",
+            "durability": "temporary",
+            "key": {
+              "xdr": "AAAAFQFlu7EH88w8",
+              "type": "ledger_key_nonce",
+              "json": {
+                "nonce": "100692935702727740"
+              }
+            },
+            "label": "auth nonce 100692935702727740 · temporary · GA2M…37CI"
+          },
+          "after": {
+            "xdr": "AAAAAQ==",
+            "type": "void",
+            "json": null
+          }
+        },
+        {
+          "type": "updated",
+          "key": {
+            "xdr": "AAAABgAAAAGuNshjKAgRlaqYrHq8w5EHv5mTLYZMehwbLhhsND43RgAAABQAAAAB",
+            "type": "contract_data",
+            "contractId": "CCXDNSDDFAEBDFNKTCWHVPGDSED37GMTFWDEY6Q4DMXBQ3BUHY3UMTJW",
+            "durability": "persistent",
+            "key": {
+              "xdr": "AAAAFA==",
+              "type": "ledger_key_contract_instance",
+              "json": "<contract instance>"
+            },
+            "label": "instance · persistent · CCXD…MTJW"
+          },
+          "before": {
+            "xdr": "AAAAEwAAAAAS2IjTVNLWpA5S4+8qceVPYaJhML2z0V01zXF40ZZnMAAAAAEAAAADAAAAEAAAAAEAAAABAAAADwAAAAVDb3VudAAAAAAAAAMAAAAGAAAAEAAAAAEAAAABAAAADwAAAAhMYXN0U3RlcAAAAAMAAAAFAAAAEAAAAAEAAAABAAAADwAAAAVPd25lcgAAAAAAABIAAAAAAAAAADTIp6SaQmlPGYJPj6q9xlxNcG+oUB1peZBJNPDure/N",
+            "type": "contract_instance",
+            "json": {
+              "contract_instance": "Wasm"
+            }
+          },
+          "after": {
+            "xdr": "AAAAEwAAAAAS2IjTVNLWpA5S4+8qceVPYaJhML2z0V01zXF40ZZnMAAAAAEAAAADAAAAEAAAAAEAAAABAAAADwAAAAVDb3VudAAAAAAAAAMAAAAAAAAAEAAAAAEAAAABAAAADwAAAAhMYXN0U3RlcAAAAAMAAAAFAAAAEAAAAAEAAAABAAAADwAAAAVPd25lcgAAAAAAABIAAAAAAAAAADTIp6SaQmlPGYJPj6q9xlxNcG+oUB1peZBJNPDure/N",
+            "type": "contract_instance",
+            "json": {
+              "contract_instance": "Wasm"
+            }
+          }
+        }
+      ]
+    }
+  },
+  "createdWith": "stellar-dev-playground@0.1.0"
+}

@@ -1,0 +1,19 @@
+{
+  "contractId": "CCXDNSDDFAEBDFNKTCWHVPGDSED37GMTFWDEY6Q4DMXBQ3BUHY3UMTJW",
+  "sample": "counter",
+  "method": "increment_by",
+  "args": {
+    "step": 0
+  },
+  "argsXdr": [
+    "AAAAAwAAAAA="
+  ],
+  "raw": {
+    "error": "HostError: Error(Contract, #2)\n\nEvent log (newest first):\n   0: [Diagnostic Event] contract:CCXDNSDDFAEBDFNKTCWHVPGDSED37GMTFWDEY6Q4DMXBQ3BUHY3UMTJW, topics:[error, Error(Contract, #2)], data:\"escalating Ok(ScErrorType::Contract) frame-exit to Err\"\n   1: [Diagnostic Event] topics:[fn_call, CCXDNSDDFAEBDFNKTCWHVPGDSED37GMTFWDEY6Q4DMXBQ3BUHY3UMTJW, increment_by], data:0\n",
+    "events": [
+      "AAAAAAAAAAAAAAAAAAAAAgAAAAAAAAADAAAADwAAAAdmbl9jYWxsAAAAAA0AAAAgrjbIYygIEZWqmKx6vMORB7+Zky2GTHocGy4YbDQ+N0YAAAAPAAAADGluY3JlbWVudF9ieQAAAAMAAAAA",
+      "AAAAAAAAAAAAAAABrjbIYygIEZWqmKx6vMORB7+Zky2GTHocGy4YbDQ+N0YAAAACAAAAAAAAAAIAAAAPAAAABWVycm9yAAAAAAAAAgAAAAAAAAACAAAADgAAADZlc2NhbGF0aW5nIE9rKFNjRXJyb3JUeXBlOjpDb250cmFjdCkgZnJhbWUtZXhpdCB0byBFcnIAAA=="
+    ],
+    "latestLedger": 5449563
+  }
+}

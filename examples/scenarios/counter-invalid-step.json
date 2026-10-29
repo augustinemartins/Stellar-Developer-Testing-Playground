@@ -1,0 +1,333 @@
+{
+  "schema": "stellar-playground/scenario",
+  "version": 1,
+  "id": "counter-invalid-step",
+  "name": "Counter: Trigger InvalidStep",
+  "description": "Returns contract error #2, which the playground maps to `CounterError::InvalidStep`.",
+  "tags": [
+    "counter",
+    "errors"
+  ],
+  "createdAt": "2026-10-29T11:01:52.444Z",
+  "updatedAt": "2026-10-29T11:01:52.444Z",
+  "network": {
+    "id": "testnet",
+    "rpcUrl": "https://soroban-testnet.stellar.org",
+    "networkPassphrase": "Test SDF Network ; September 2015",
+    "friendbotUrl": "https://friendbot.stellar.org"
+  },
+  "contract": {
+    "id": "CCXDNSDDFAEBDFNKTCWHVPGDSED37GMTFWDEY6Q4DMXBQ3BUHY3UMTJW",
+    "label": "Counter",
+    "spec": {
+      "functions": [
+        {
+          "name": "get",
+          "doc": "Returns the current count.",
+          "inputs": [],
+          "outputs": [
+            {
+              "kind": "u32"
+            }
+          ]
+        },
+        {
+          "name": "reset",
+          "doc": "Resets the counter to zero. Requires the owner's authorization.",
+          "inputs": [
+            {
+              "name": "caller",
+              "type": {
+                "kind": "address"
+              }
+            }
+          ],
+          "outputs": [
+            {
+              "kind": "result",
+              "ok": {
+                "kind": "u32"
+              },
+              "error": {
+                "kind": "udt",
+                "name": "CounterError"
+              }
+            }
+          ]
+        },
+        {
+          "name": "stats",
+          "doc": "Returns a structured snapshot of the counter state.",
+          "inputs": [],
+          "outputs": [
+            {
+              "kind": "udt",
+              "name": "CounterStats"
+            }
+          ]
+        },
+        {
+          "name": "increment",
+          "doc": "Adds one to the counter and returns the new value.",
+          "inputs": [],
+          "outputs": [
+            {
+              "kind": "result",
+              "ok": {
+                "kind": "u32"
+              },
+              "error": {
+                "kind": "udt",
+                "name": "CounterError"
+              }
+            }
+          ]
+        },
+        {
+          "name": "increment_by",
+          "doc": "Adds `step` (1..=100) to the counter and returns the new value.",
+          "inputs": [
+            {
+              "name": "step",
+              "type": {
+                "kind": "u32"
+              }
+            }
+          ],
+          "outputs": [
+            {
+              "kind": "result",
+              "ok": {
+                "kind": "u32"
+              },
+              "error": {
+                "kind": "udt",
+                "name": "CounterError"
+              }
+            }
+          ]
+        },
+        {
+          "name": "__constructor",
+          "doc": "Deploys the counter with an owner who is allowed to reset it.",
+          "inputs": [
+            {
+              "name": "owner",
+              "type": {
+                "kind": "address"
+              }
+            }
+          ],
+          "outputs": []
+        }
+      ],
+      "types": [
+        {
+          "kind": "error_enum",
+          "name": "CounterError",
+          "cases": [
+            {
+              "name": "Overflow",
+              "doc": "The counter would exceed `u32::MAX`.",
+              "value": 1
+            },
+            {
+              "name": "InvalidStep",
+              "doc": "The step passed to `increment_by` is zero or larger than `MAX_STEP`.",
+              "value": 2
+            },
+            {
+              "name": "NotOwner",
+              "doc": "The caller is not the owner recorded at deployment.",
+              "value": 3
+            }
+          ]
+        },
+        {
+          "kind": "struct",
+          "name": "CounterStats",
+          "doc": "Snapshot of the counter state.",
+          "fields": [
+            {
+              "name": "count",
+              "type": {
+                "kind": "u32"
+              }
+            },
+            {
+              "name": "last_step",
+              "type": {
+                "kind": "u32"
+              }
+            },
+            {
+              "name": "max_step",
+              "type": {
+                "kind": "u32"
+              }
+            },
+            {
+              "name": "owner",
+              "type": {
+                "kind": "address"
+              }
+            }
+          ]
+        }
+      ],
+      "events": [
+        {
+          "name": "Reset",
+          "doc": "Emitted when the owner resets the counter.",
+          "prefixTopics": [
+            "reset"
+          ],
+          "params": [
+            {
+              "name": "owner",
+              "type": {
+                "kind": "address"
+              },
+              "location": "topic"
+            },
+            {
+              "name": "previous",
+              "type": {
+                "kind": "u32"
+              },
+              "location": "data"
+            }
+          ],
+          "dataFormat": "map"
+        },
+        {
+          "name": "Incremented",
+          "doc": "Emitted every time the counter changes.",
+          "prefixTopics": [
+            "incremented"
+          ],
+          "params": [
+            {
+              "name": "step",
+              "type": {
+                "kind": "u32"
+              },
+              "location": "topic"
+            },
+            {
+              "name": "count",
+              "type": {
+                "kind": "u32"
+              },
+              "location": "data"
+            }
+          ],
+          "dataFormat": "map"
+        }
+      ]
+    },
+    "wasmHash": "12d888d354d2d6a40e52e3ef2a71e54f61a26130bdb3d15d35cd7178d1966730"
+  },
+  "invocation": {
+    "method": "increment_by",
+    "args": {
+      "step": 0
+    },
+    "authMode": "record"
+  },
+  "expect": {
+    "status": "error",
+    "contractErrorCode": 2
+  },
+  "recorded": {
+    "at": "2026-10-29T11:01:52.278Z",
+    "latestLedger": 5449614,
+    "argsXdr": [
+      "AAAAAwAAAAA="
+    ],
+    "transactionXdr": "AAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAGQAAAAAAAAAAQAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAGAAAAAAAAAABrjbIYygIEZWqmKx6vMORB7+Zky2GTHocGy4YbDQ+N0YAAAAMaW5jcmVtZW50X2J5AAAAAQAAAAMAAAAAAAAAAAAAAAAAAAAA",
+    "report": {
+      "status": "error",
+      "latestLedger": 5449614,
+      "auth": [],
+      "events": [
+        {
+          "index": 0,
+          "type": "diagnostic",
+          "inSuccessfulContractCall": false,
+          "topics": [
+            {
+              "xdr": "AAAADwAAAAdmbl9jYWxsAA==",
+              "type": "symbol",
+              "json": "fn_call"
+            },
+            {
+              "xdr": "AAAADQAAACCuNshjKAgRlaqYrHq8w5EHv5mTLYZMehwbLhhsND43Rg==",
+              "type": "bytes",
+              "json": "ae36c86328081195aa98ac7abcc39107bf99932d864c7a1c1b2e186c343e3746"
+            },
+            {
+              "xdr": "AAAADwAAAAxpbmNyZW1lbnRfYnk=",
+              "type": "symbol",
+              "json": "increment_by"
+            }
+          ],
+          "data": {
+            "xdr": "AAAAAwAAAAA=",
+            "type": "u32",
+            "json": 0
+          },
+          "xdr": "AAAAAAAAAAAAAAAAAAAAAgAAAAAAAAADAAAADwAAAAdmbl9jYWxsAAAAAA0AAAAgrjbIYygIEZWqmKx6vMORB7+Zky2GTHocGy4YbDQ+N0YAAAAPAAAADGluY3JlbWVudF9ieQAAAAMAAAAA",
+          "name": "fn_call",
+          "params": {
+            "contract": "CCXDNSDDFAEBDFNKTCWHVPGDSED37GMTFWDEY6Q4DMXBQ3BUHY3UMTJW",
+            "function": "increment_by"
+          }
+        },
+        {
+          "index": 1,
+          "type": "diagnostic",
+          "contractId": "CCXDNSDDFAEBDFNKTCWHVPGDSED37GMTFWDEY6Q4DMXBQ3BUHY3UMTJW",
+          "inSuccessfulContractCall": false,
+          "topics": [
+            {
+              "xdr": "AAAADwAAAAVlcnJvcgAAAA==",
+              "type": "symbol",
+              "json": "error"
+            },
+            {
+              "xdr": "AAAAAgAAAAAAAAAC",
+              "type": "error",
+              "json": {
+                "error": {
+                  "type": "Contract",
+                  "code": 2
+                }
+              }
+            }
+          ],
+          "data": {
+            "xdr": "AAAADgAAADZlc2NhbGF0aW5nIE9rKFNjRXJyb3JUeXBlOjpDb250cmFjdCkgZnJhbWUtZXhpdCB0byBFcnIAAA==",
+            "type": "string",
+            "json": "escalating Ok(ScErrorType::Contract) frame-exit to Err"
+          },
+          "xdr": "AAAAAAAAAAAAAAABrjbIYygIEZWqmKx6vMORB7+Zky2GTHocGy4YbDQ+N0YAAAACAAAAAAAAAAIAAAAPAAAABWVycm9yAAAAAAAAAgAAAAAAAAACAAAADgAAADZlc2NhbGF0aW5nIE9rKFNjRXJyb3JUeXBlOjpDb250cmFjdCkgZnJhbWUtZXhpdCB0byBFcnIAAA==",
+          "name": "error"
+        }
+      ],
+      "stateChanges": [],
+      "error": {
+        "kind": "contract",
+        "summary": "Contract error #2: CounterError::InvalidStep",
+        "hint": "The step passed to `increment_by` is zero or larger than `MAX_STEP`.",
+        "hostErrorType": "Contract",
+        "hostErrorCode": "2",
+        "contractErrorCode": 2,
+        "contractErrorName": "CounterError::InvalidStep",
+        "contractErrorDoc": "The step passed to `increment_by` is zero or larger than `MAX_STEP`.",
+        "raw": "HostError: Error(Contract, #2)\n\nEvent log (newest first):\n   0: [Diagnostic Event] contract:CCXDNSDDFAEBDFNKTCWHVPGDSED37GMTFWDEY6Q4DMXBQ3BUHY3UMTJW, topics:[error, Error(Contract, #2)], data:\"escalating Ok(ScErrorType::Contract) frame-exit to Err\"\n   1: [Diagnostic Event] topics:[fn_call, CCXDNSDDFAEBDFNKTCWHVPGDSED37GMTFWDEY6Q4DMXBQ3BUHY3UMTJW, increment_by], data:0\n"
+      }
+    }
+  },
+  "createdWith": "stellar-dev-playground@0.1.0"
+}

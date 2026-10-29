@@ -1,0 +1,16 @@
+{
+  "name": "@playground/contract-loader",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Loads and normalises Soroban contract specifications from the network, WASM or JSON fixtures.",
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json"
+  },
+  "dependencies": {"@stellar/stellar-sdk": "17.2.1", "@playground/shared-types": "workspace:*"}
+}

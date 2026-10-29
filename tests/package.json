@@ -1,0 +1,12 @@
+{
+  "name": "@playground/tests",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "End-to-end tests against Stellar testnet.",
+  "dependencies": {
+    "@playground/contract-loader": "workspace:*",
+    "@playground/shared-types": "workspace:*",
+    "@playground/simulation-engine": "workspace:*"
+  }
+}

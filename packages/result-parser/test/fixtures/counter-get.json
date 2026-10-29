@@ -1,0 +1,22 @@
+{
+  "contractId": "CCXDNSDDFAEBDFNKTCWHVPGDSED37GMTFWDEY6Q4DMXBQ3BUHY3UMTJW",
+  "sample": "counter",
+  "method": "get",
+  "args": {},
+  "argsXdr": [],
+  "raw": {
+    "transactionData": "AAAAAAAAAAIAAAAGAAAAAa42yGMoCBGVqpiserzDkQe/mZMthkx6HBsuGGw0PjdGAAAAFAAAAAEAAAAHEtiI01TS1qQOUuPvKnHlT2GiYTC9s9FdNc1xeNGWZzAAAAAAAAYyWgAAAAAAAAAAAAAAAAAAGI4=",
+    "events": [
+      "AAAAAQAAAAAAAAAAAAAAAgAAAAAAAAADAAAADwAAAAdmbl9jYWxsAAAAAA0AAAAgrjbIYygIEZWqmKx6vMORB7+Zky2GTHocGy4YbDQ+N0YAAAAPAAAAA2dldAAAAAAB",
+      "AAAAAQAAAAAAAAABrjbIYygIEZWqmKx6vMORB7+Zky2GTHocGy4YbDQ+N0YAAAACAAAAAAAAAAIAAAAPAAAACWZuX3JldHVybgAAAAAAAA8AAAADZ2V0AAAAAAMAAAAG"
+    ],
+    "minResourceFee": "6286",
+    "results": [
+      {
+        "auth": [],
+        "xdr": "AAAAAwAAAAY="
+      }
+    ],
+    "latestLedger": 5449563
+  }
+}

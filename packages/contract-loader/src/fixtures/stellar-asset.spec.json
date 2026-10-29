@@ -1,0 +1,520 @@
+{
+  "wasmHash": null,
+  "spec": {
+    "functions": [
+      {
+        "name": "allowance",
+        "doc": "Returns the allowance for `spender` to transfer from `from`.\n\nThe amount returned is the amount that spender is allowed to transfer\nout of from's balance. When the spender transfers amounts, the allowance\nwill be reduced by the amount transferred.\n\n# Arguments\n\n* `from` - The address holding the balance of tokens to be drawn from.\n* `spender` - The address spending the tokens held by `from`.",
+        "inputs": [
+          {
+            "name": "from",
+            "type": {
+              "kind": "address"
+            }
+          },
+          {
+            "name": "spender",
+            "type": {
+              "kind": "address"
+            }
+          }
+        ],
+        "outputs": [
+          {
+            "kind": "i128"
+          }
+        ]
+      },
+      {
+        "name": "authorized",
+        "doc": "Returns true if `id` is authorized to use its balance.\n\n# Arguments\n\n* `id` - The address for which token authorization is being checked.",
+        "inputs": [
+          {
+            "name": "id",
+            "type": {
+              "kind": "address"
+            }
+          }
+        ],
+        "outputs": [
+          {
+            "kind": "bool"
+          }
+        ]
+      },
+      {
+        "name": "approve",
+        "doc": "Set the allowance by `amount` for `spender` to transfer/burn from\n`from`.\n\nThe amount set is the amount that spender is approved to transfer out of\nfrom's balance. The spender will be allowed to transfer amounts, and\nwhen an amount is transferred the allowance will be reduced by the\namount transferred.\n\n# Arguments\n\n* `from` - The address holding the balance of tokens to be drawn from.\n* `spender` - The address being authorized to spend the tokens held by\n`from`.\n* `amount` - The tokens to be made available to `spender`.\n* `expiration_ledger` - The ledger number where this allowance expires. Cannot\nbe less than the current ledger number unless the amount is being set to 0.\nAn expired entry (where expiration_ledger < the current ledger number)\nshould be treated as a 0 amount allowance.\n\n# Events\n\nEmits an event with topics `[\"approve\", from: Address,\nspender: Address], data = [amount: i128, expiration_ledger: u32]`",
+        "inputs": [
+          {
+            "name": "from",
+            "type": {
+              "kind": "address"
+            }
+          },
+          {
+            "name": "spender",
+            "type": {
+              "kind": "address"
+            }
+          },
+          {
+            "name": "amount",
+            "type": {
+              "kind": "i128"
+            }
+          },
+          {
+            "name": "expiration_ledger",
+            "type": {
+              "kind": "u32"
+            }
+          }
+        ],
+        "outputs": []
+      },
+      {
+        "name": "balance",
+        "doc": "Returns the balance of `id`.\n\n# Arguments\n\n* `id` - The address for which a balance is being queried. If the\naddress has no existing balance, returns 0.",
+        "inputs": [
+          {
+            "name": "id",
+            "type": {
+              "kind": "address"
+            }
+          }
+        ],
+        "outputs": [
+          {
+            "kind": "i128"
+          }
+        ]
+      },
+      {
+        "name": "burn",
+        "doc": "Burn `amount` from `from`.\n\nReduces from's balance by the amount, without transferring the balance\nto another holder's balance.\n\n# Arguments\n\n* `from` - The address holding the balance of tokens which will be\nburned from.\n* `amount` - The amount of tokens to be burned.\n\n# Events\n\nEmits an event with topics `[\"burn\", from: Address], data = amount:\ni128`",
+        "inputs": [
+          {
+            "name": "from",
+            "type": {
+              "kind": "address"
+            }
+          },
+          {
+            "name": "amount",
+            "type": {
+              "kind": "i128"
+            }
+          }
+        ],
+        "outputs": []
+      },
+      {
+        "name": "burn_from",
+        "doc": "Burn `amount` from `from`, consuming the allowance of `spender`.\n\nReduces from's balance by the amount, without transferring the balance\nto another holder's balance.\n\nThe spender will be allowed to burn the amount from from's balance, if\nthe amount is less than or equal to the allowance that the spender has\non the from's balance. The spender's allowance on from's balance will be\nreduced by the amount.\n\n# Arguments\n\n* `spender` - The address authorizing the burn, and having its allowance\nconsumed during the burn.\n* `from` - The address holding the balance of tokens which will be\nburned from.\n* `amount` - The amount of tokens to be burned.\n\n# Events\n\nEmits an event with topics `[\"burn\", from: Address], data = amount:\ni128`",
+        "inputs": [
+          {
+            "name": "spender",
+            "type": {
+              "kind": "address"
+            }
+          },
+          {
+            "name": "from",
+            "type": {
+              "kind": "address"
+            }
+          },
+          {
+            "name": "amount",
+            "type": {
+              "kind": "i128"
+            }
+          }
+        ],
+        "outputs": []
+      },
+      {
+        "name": "clawback",
+        "doc": "Clawback `amount` from `from` account. `amount` is burned in the\nclawback process.\n\n# Arguments\n\n* `from` - The address holding the balance from which the clawback will\ntake tokens.\n* `amount` - The amount of tokens to be clawed back.\n\n# Events\n\nEmits an event with topics `[\"clawback\", admin: Address, to: Address],\ndata = amount: i128`",
+        "inputs": [
+          {
+            "name": "from",
+            "type": {
+              "kind": "address"
+            }
+          },
+          {
+            "name": "amount",
+            "type": {
+              "kind": "i128"
+            }
+          }
+        ],
+        "outputs": []
+      },
+      {
+        "name": "decimals",
+        "doc": "Returns the number of decimals used to represent amounts of this token.\n\n# Panics\n\nIf the contract has not yet been initialized.",
+        "inputs": [],
+        "outputs": [
+          {
+            "kind": "u32"
+          }
+        ]
+      },
+      {
+        "name": "mint",
+        "doc": "Mints `amount` to `to`.\n\n# Arguments\n\n* `to` - The address which will receive the minted tokens.\n* `amount` - The amount of tokens to be minted.\n\n# Events\n\nEmits an event with topics `[\"mint\", admin: Address, to: Address], data\n= amount: i128`",
+        "inputs": [
+          {
+            "name": "to",
+            "type": {
+              "kind": "address"
+            }
+          },
+          {
+            "name": "amount",
+            "type": {
+              "kind": "i128"
+            }
+          }
+        ],
+        "outputs": []
+      },
+      {
+        "name": "name",
+        "doc": "Returns the name for this token.\n\n# Panics\n\nIf the contract has not yet been initialized.",
+        "inputs": [],
+        "outputs": [
+          {
+            "kind": "string"
+          }
+        ]
+      },
+      {
+        "name": "set_admin",
+        "doc": "Sets the administrator to the specified address `new_admin`.\n\n# Arguments\n\n* `new_admin` - The address which will henceforth be the administrator\nof this token contract.\n\n# Events\n\nEmits an event with topics `[\"set_admin\", admin: Address], data =\n[new_admin: Address]`",
+        "inputs": [
+          {
+            "name": "new_admin",
+            "type": {
+              "kind": "address"
+            }
+          }
+        ],
+        "outputs": []
+      },
+      {
+        "name": "admin",
+        "doc": "Returns the admin of the contract.\n\n# Panics\n\nIf the admin is not set.",
+        "inputs": [],
+        "outputs": [
+          {
+            "kind": "address"
+          }
+        ]
+      },
+      {
+        "name": "set_authorized",
+        "doc": "Sets whether the account is authorized to use its balance. If\n`authorized` is true, `id` should be able to use its balance.\n\n# Arguments\n\n* `id` - The address being (de-)authorized.\n* `authorize` - Whether or not `id` can use its balance.\n\n# Events\n\nEmits an event with topics `[\"set_authorized\", id: Address], data =\n[authorize: bool]`",
+        "inputs": [
+          {
+            "name": "id",
+            "type": {
+              "kind": "address"
+            }
+          },
+          {
+            "name": "authorize",
+            "type": {
+              "kind": "bool"
+            }
+          }
+        ],
+        "outputs": []
+      },
+      {
+        "name": "symbol",
+        "doc": "Returns the symbol for this token.\n\n# Panics\n\nIf the contract has not yet been initialized.",
+        "inputs": [],
+        "outputs": [
+          {
+            "kind": "string"
+          }
+        ]
+      },
+      {
+        "name": "transfer",
+        "doc": "Transfer `amount` from `from` to `to`.\n\n# Arguments\n\n* `from` - The address holding the balance of tokens which will be\nwithdrawn from.\n* `to` - The address which will receive the transferred tokens.\n* `amount` - The amount of tokens to be transferred.\n\n# Events\n\nEmits an event with topics `[\"transfer\", from: Address, to: Address],\ndata = amount: i128`",
+        "inputs": [
+          {
+            "name": "from",
+            "type": {
+              "kind": "address"
+            }
+          },
+          {
+            "name": "to",
+            "type": {
+              "kind": "address"
+            }
+          },
+          {
+            "name": "amount",
+            "type": {
+              "kind": "i128"
+            }
+          }
+        ],
+        "outputs": []
+      },
+      {
+        "name": "transfer_from",
+        "doc": "Transfer `amount` from `from` to `to`, consuming the allowance that\n`spender` has on `from`'s balance. Authorized by spender\n(`spender.require_auth()`).\n\nThe spender will be allowed to transfer the amount from from's balance\nif the amount is less than or equal to the allowance that the spender\nhas on the from's balance. The spender's allowance on from's balance\nwill be reduced by the amount.\n\n# Arguments\n\n* `spender` - The address authorizing the transfer, and having its\nallowance consumed during the transfer.\n* `from` - The address holding the balance of tokens which will be\nwithdrawn from.\n* `to` - The address which will receive the transferred tokens.\n* `amount` - The amount of tokens to be transferred.\n\n# Events\n\nEmits an event with topics `[\"transfer\", from: Address, to: Address],\ndata = amount: i128`",
+        "inputs": [
+          {
+            "name": "spender",
+            "type": {
+              "kind": "address"
+            }
+          },
+          {
+            "name": "from",
+            "type": {
+              "kind": "address"
+            }
+          },
+          {
+            "name": "to",
+            "type": {
+              "kind": "address"
+            }
+          },
+          {
+            "name": "amount",
+            "type": {
+              "kind": "i128"
+            }
+          }
+        ],
+        "outputs": []
+      }
+    ],
+    "types": [],
+    "events": [
+      {
+        "name": "Approve",
+        "prefixTopics": [
+          "approve"
+        ],
+        "params": [
+          {
+            "name": "from",
+            "type": {
+              "kind": "address"
+            },
+            "location": "topic"
+          },
+          {
+            "name": "spender",
+            "type": {
+              "kind": "address"
+            },
+            "location": "topic"
+          },
+          {
+            "name": "amount",
+            "type": {
+              "kind": "i128"
+            },
+            "location": "data"
+          },
+          {
+            "name": "expiration_ledger",
+            "type": {
+              "kind": "u32"
+            },
+            "location": "data"
+          }
+        ],
+        "dataFormat": "vec"
+      },
+      {
+        "name": "Transfer",
+        "prefixTopics": [
+          "transfer"
+        ],
+        "params": [
+          {
+            "name": "from",
+            "type": {
+              "kind": "address"
+            },
+            "location": "topic"
+          },
+          {
+            "name": "to",
+            "type": {
+              "kind": "address"
+            },
+            "location": "topic"
+          },
+          {
+            "name": "amount",
+            "type": {
+              "kind": "i128"
+            },
+            "location": "data"
+          }
+        ],
+        "dataFormat": "single"
+      },
+      {
+        "name": "TransferMuxed",
+        "prefixTopics": [
+          "transfer"
+        ],
+        "params": [
+          {
+            "name": "from",
+            "type": {
+              "kind": "address"
+            },
+            "location": "topic"
+          },
+          {
+            "name": "to",
+            "type": {
+              "kind": "address"
+            },
+            "location": "topic"
+          },
+          {
+            "name": "to_muxed_id",
+            "type": {
+              "kind": "u32"
+            },
+            "location": "data"
+          },
+          {
+            "name": "amount",
+            "type": {
+              "kind": "i128"
+            },
+            "location": "data"
+          }
+        ],
+        "dataFormat": "map"
+      },
+      {
+        "name": "Burn",
+        "prefixTopics": [
+          "burn"
+        ],
+        "params": [
+          {
+            "name": "from",
+            "type": {
+              "kind": "address"
+            },
+            "location": "topic"
+          },
+          {
+            "name": "amount",
+            "type": {
+              "kind": "i128"
+            },
+            "location": "data"
+          }
+        ],
+        "dataFormat": "single"
+      },
+      {
+        "name": "Mint",
+        "prefixTopics": [
+          "mint"
+        ],
+        "params": [
+          {
+            "name": "to",
+            "type": {
+              "kind": "address"
+            },
+            "location": "topic"
+          },
+          {
+            "name": "amount",
+            "type": {
+              "kind": "i128"
+            },
+            "location": "data"
+          }
+        ],
+        "dataFormat": "single"
+      },
+      {
+        "name": "Clawback",
+        "prefixTopics": [
+          "clawback"
+        ],
+        "params": [
+          {
+            "name": "from",
+            "type": {
+              "kind": "address"
+            },
+            "location": "topic"
+          },
+          {
+            "name": "amount",
+            "type": {
+              "kind": "i128"
+            },
+            "location": "data"
+          }
+        ],
+        "dataFormat": "single"
+      },
+      {
+        "name": "SetAdmin",
+        "prefixTopics": [
+          "set_admin"
+        ],
+        "params": [
+          {
+            "name": "new_admin",
+            "type": {
+              "kind": "address"
+            },
+            "location": "data"
+          }
+        ],
+        "dataFormat": "single"
+      },
+      {
+        "name": "SetAuthorized",
+        "prefixTopics": [
+          "set_authorized"
+        ],
+        "params": [
+          {
+            "name": "id",
+            "type": {
+              "kind": "address"
+            },
+            "location": "topic"
+          },
+          {
+            "name": "authorize",
+            "type": {
+              "kind": "bool"
+            },
+            "location": "data"
+          }
+        ],
+        "dataFormat": "single"
+      }
+    ]
+  }
+}

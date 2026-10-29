@@ -1,0 +1,651 @@
+{
+  "wasmHash": "3970b223350c196fa92a628e96a3ee756bd4380f757d1a72da58623dfced248f",
+  "spec": {
+    "functions": [
+      {
+        "name": "burn",
+        "doc": "Destroys `amount` of `from`'s tokens.",
+        "inputs": [
+          {
+            "name": "from",
+            "type": {
+              "kind": "address"
+            }
+          },
+          {
+            "name": "amount",
+            "type": {
+              "kind": "i128"
+            }
+          }
+        ],
+        "outputs": [
+          {
+            "kind": "result",
+            "ok": {
+              "kind": "void"
+            },
+            "error": {
+              "kind": "udt",
+              "name": "TokenError"
+            }
+          }
+        ]
+      },
+      {
+        "name": "mint",
+        "doc": "Mints `amount` to `to`. Requires the admin's authorization.",
+        "inputs": [
+          {
+            "name": "to",
+            "type": {
+              "kind": "address"
+            }
+          },
+          {
+            "name": "amount",
+            "type": {
+              "kind": "i128"
+            }
+          }
+        ],
+        "outputs": [
+          {
+            "kind": "result",
+            "ok": {
+              "kind": "void"
+            },
+            "error": {
+              "kind": "udt",
+              "name": "TokenError"
+            }
+          }
+        ]
+      },
+      {
+        "name": "name",
+        "inputs": [],
+        "outputs": [
+          {
+            "kind": "string"
+          }
+        ]
+      },
+      {
+        "name": "admin",
+        "inputs": [],
+        "outputs": [
+          {
+            "kind": "address"
+          }
+        ]
+      },
+      {
+        "name": "symbol",
+        "inputs": [],
+        "outputs": [
+          {
+            "kind": "string"
+          }
+        ]
+      },
+      {
+        "name": "approve",
+        "doc": "Allows `spender` to move up to `amount` until `expiration_ledger`.",
+        "inputs": [
+          {
+            "name": "from",
+            "type": {
+              "kind": "address"
+            }
+          },
+          {
+            "name": "spender",
+            "type": {
+              "kind": "address"
+            }
+          },
+          {
+            "name": "amount",
+            "type": {
+              "kind": "i128"
+            }
+          },
+          {
+            "name": "expiration_ledger",
+            "type": {
+              "kind": "u32"
+            }
+          }
+        ],
+        "outputs": [
+          {
+            "kind": "result",
+            "ok": {
+              "kind": "void"
+            },
+            "error": {
+              "kind": "udt",
+              "name": "TokenError"
+            }
+          }
+        ]
+      },
+      {
+        "name": "balance",
+        "doc": "Balance held by `id`.",
+        "inputs": [
+          {
+            "name": "id",
+            "type": {
+              "kind": "address"
+            }
+          }
+        ],
+        "outputs": [
+          {
+            "kind": "i128"
+          }
+        ]
+      },
+      {
+        "name": "decimals",
+        "inputs": [],
+        "outputs": [
+          {
+            "kind": "u32"
+          }
+        ]
+      },
+      {
+        "name": "metadata",
+        "doc": "All metadata in one call.",
+        "inputs": [],
+        "outputs": [
+          {
+            "kind": "udt",
+            "name": "TokenMetadata"
+          }
+        ]
+      },
+      {
+        "name": "transfer",
+        "doc": "Moves `amount` from `from` to `to`. Requires `from`'s authorization.",
+        "inputs": [
+          {
+            "name": "from",
+            "type": {
+              "kind": "address"
+            }
+          },
+          {
+            "name": "to",
+            "type": {
+              "kind": "address"
+            }
+          },
+          {
+            "name": "amount",
+            "type": {
+              "kind": "i128"
+            }
+          }
+        ],
+        "outputs": [
+          {
+            "kind": "result",
+            "ok": {
+              "kind": "void"
+            },
+            "error": {
+              "kind": "udt",
+              "name": "TokenError"
+            }
+          }
+        ]
+      },
+      {
+        "name": "allowance",
+        "doc": "Amount `spender` may still transfer on behalf of `from`.",
+        "inputs": [
+          {
+            "name": "from",
+            "type": {
+              "kind": "address"
+            }
+          },
+          {
+            "name": "spender",
+            "type": {
+              "kind": "address"
+            }
+          }
+        ],
+        "outputs": [
+          {
+            "kind": "i128"
+          }
+        ]
+      },
+      {
+        "name": "total_supply",
+        "doc": "Total amount minted minus burned.",
+        "inputs": [],
+        "outputs": [
+          {
+            "kind": "i128"
+          }
+        ]
+      },
+      {
+        "name": "__constructor",
+        "doc": "Deploys the token with an admin allowed to mint.",
+        "inputs": [
+          {
+            "name": "admin",
+            "type": {
+              "kind": "address"
+            }
+          },
+          {
+            "name": "decimals",
+            "type": {
+              "kind": "u32"
+            }
+          },
+          {
+            "name": "name",
+            "type": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "symbol",
+            "type": {
+              "kind": "string"
+            }
+          }
+        ],
+        "outputs": []
+      },
+      {
+        "name": "transfer_from",
+        "doc": "Moves tokens using an allowance. Requires `spender`'s authorization.",
+        "inputs": [
+          {
+            "name": "spender",
+            "type": {
+              "kind": "address"
+            }
+          },
+          {
+            "name": "from",
+            "type": {
+              "kind": "address"
+            }
+          },
+          {
+            "name": "to",
+            "type": {
+              "kind": "address"
+            }
+          },
+          {
+            "name": "amount",
+            "type": {
+              "kind": "i128"
+            }
+          }
+        ],
+        "outputs": [
+          {
+            "kind": "result",
+            "ok": {
+              "kind": "void"
+            },
+            "error": {
+              "kind": "udt",
+              "name": "TokenError"
+            }
+          }
+        ]
+      },
+      {
+        "name": "transfer_batch",
+        "doc": "Pays several recipients in one call and returns the total sent.",
+        "inputs": [
+          {
+            "name": "from",
+            "type": {
+              "kind": "address"
+            }
+          },
+          {
+            "name": "payments",
+            "type": {
+              "kind": "vec",
+              "element": {
+                "kind": "udt",
+                "name": "Payment"
+              }
+            }
+          }
+        ],
+        "outputs": [
+          {
+            "kind": "result",
+            "ok": {
+              "kind": "i128"
+            },
+            "error": {
+              "kind": "udt",
+              "name": "TokenError"
+            }
+          }
+        ]
+      },
+      {
+        "name": "transfer_with_memo",
+        "doc": "Like `transfer`, with an optional memo published as an event.",
+        "inputs": [
+          {
+            "name": "from",
+            "type": {
+              "kind": "address"
+            }
+          },
+          {
+            "name": "to",
+            "type": {
+              "kind": "address"
+            }
+          },
+          {
+            "name": "amount",
+            "type": {
+              "kind": "i128"
+            }
+          },
+          {
+            "name": "memo",
+            "type": {
+              "kind": "option",
+              "value": {
+                "kind": "udt",
+                "name": "Memo"
+              }
+            }
+          }
+        ],
+        "outputs": [
+          {
+            "kind": "result",
+            "ok": {
+              "kind": "void"
+            },
+            "error": {
+              "kind": "udt",
+              "name": "TokenError"
+            }
+          }
+        ]
+      }
+    ],
+    "types": [
+      {
+        "kind": "union",
+        "name": "Memo",
+        "doc": "An optional memo attached to `transfer_with_memo`.",
+        "cases": [
+          {
+            "kind": "tuple",
+            "name": "Text",
+            "types": [
+              {
+                "kind": "string"
+              }
+            ]
+          },
+          {
+            "kind": "tuple",
+            "name": "Id",
+            "types": [
+              {
+                "kind": "u64"
+              }
+            ]
+          },
+          {
+            "kind": "tuple",
+            "name": "Hash",
+            "types": [
+              {
+                "kind": "bytes_n",
+                "n": 32
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "kind": "struct",
+        "name": "Payment",
+        "doc": "One leg of a `transfer_batch` call.",
+        "fields": [
+          {
+            "name": "amount",
+            "type": {
+              "kind": "i128"
+            }
+          },
+          {
+            "name": "to",
+            "type": {
+              "kind": "address"
+            }
+          }
+        ]
+      },
+      {
+        "kind": "error_enum",
+        "name": "TokenError",
+        "cases": [
+          {
+            "name": "InvalidAmount",
+            "doc": "The amount is zero or negative.",
+            "value": 1
+          },
+          {
+            "name": "InsufficientBalance",
+            "doc": "The sender does not hold enough tokens.",
+            "value": 2
+          },
+          {
+            "name": "InsufficientAllowance",
+            "doc": "The spender's allowance is too small or has expired.",
+            "value": 3
+          },
+          {
+            "name": "InvalidExpiration",
+            "doc": "The allowance expiration ledger is in the past.",
+            "value": 4
+          },
+          {
+            "name": "InvalidBatch",
+            "doc": "The batch is empty or larger than `MAX_BATCH`.",
+            "value": 5
+          },
+          {
+            "name": "Overflow",
+            "doc": "A balance would overflow `i128`.",
+            "value": 6
+          }
+        ]
+      },
+      {
+        "kind": "struct",
+        "name": "TokenMetadata",
+        "doc": "Token metadata fixed at deployment.",
+        "fields": [
+          {
+            "name": "decimals",
+            "type": {
+              "kind": "u32"
+            }
+          },
+          {
+            "name": "name",
+            "type": {
+              "kind": "string"
+            }
+          },
+          {
+            "name": "symbol",
+            "type": {
+              "kind": "string"
+            }
+          }
+        ]
+      }
+    ],
+    "events": [
+      {
+        "name": "Burn",
+        "prefixTopics": [
+          "burn"
+        ],
+        "params": [
+          {
+            "name": "from",
+            "type": {
+              "kind": "address"
+            },
+            "location": "topic"
+          },
+          {
+            "name": "amount",
+            "type": {
+              "kind": "i128"
+            },
+            "location": "data"
+          }
+        ],
+        "dataFormat": "map"
+      },
+      {
+        "name": "Mint",
+        "prefixTopics": [
+          "mint"
+        ],
+        "params": [
+          {
+            "name": "to",
+            "type": {
+              "kind": "address"
+            },
+            "location": "topic"
+          },
+          {
+            "name": "amount",
+            "type": {
+              "kind": "i128"
+            },
+            "location": "data"
+          }
+        ],
+        "dataFormat": "map"
+      },
+      {
+        "name": "Approve",
+        "prefixTopics": [
+          "approve"
+        ],
+        "params": [
+          {
+            "name": "from",
+            "type": {
+              "kind": "address"
+            },
+            "location": "topic"
+          },
+          {
+            "name": "spender",
+            "type": {
+              "kind": "address"
+            },
+            "location": "topic"
+          },
+          {
+            "name": "amount",
+            "type": {
+              "kind": "i128"
+            },
+            "location": "data"
+          },
+          {
+            "name": "expiration_ledger",
+            "type": {
+              "kind": "u32"
+            },
+            "location": "data"
+          }
+        ],
+        "dataFormat": "map"
+      },
+      {
+        "name": "Transfer",
+        "prefixTopics": [
+          "transfer"
+        ],
+        "params": [
+          {
+            "name": "from",
+            "type": {
+              "kind": "address"
+            },
+            "location": "topic"
+          },
+          {
+            "name": "to",
+            "type": {
+              "kind": "address"
+            },
+            "location": "topic"
+          },
+          {
+            "name": "amount",
+            "type": {
+              "kind": "i128"
+            },
+            "location": "data"
+          }
+        ],
+        "dataFormat": "map"
+      },
+      {
+        "name": "MemoAttached",
+        "prefixTopics": [
+          "memo"
+        ],
+        "params": [
+          {
+            "name": "from",
+            "type": {
+              "kind": "address"
+            },
+            "location": "topic"
+          },
+          {
+            "name": "memo",
+            "type": {
+              "kind": "udt",
+              "name": "Memo"
+            },
+            "location": "data"
+          }
+        ],
+        "dataFormat": "map"
+      }
+    ]
+  }
+}
