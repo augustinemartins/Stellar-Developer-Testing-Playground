@@ -14,9 +14,30 @@ const spec: ContractSpec = {
   functions: [],
   events: [],
   types: [
-    { kind: "struct", name: "Point", fields: [{ name: "y", type: { kind: "i32" } }, { name: "x", type: { kind: "i32" } }] },
-    { kind: "struct", name: "Pair", fields: [{ name: "0", type: { kind: "u32" } }, { name: "1", type: { kind: "bool" } }] },
-    { kind: "enum", name: "Color", cases: [{ name: "Red", value: 0 }, { name: "Green", value: 1 }] },
+    {
+      kind: "struct",
+      name: "Point",
+      fields: [
+        { name: "y", type: { kind: "i32" } },
+        { name: "x", type: { kind: "i32" } },
+      ],
+    },
+    {
+      kind: "struct",
+      name: "Pair",
+      fields: [
+        { name: "0", type: { kind: "u32" } },
+        { name: "1", type: { kind: "bool" } },
+      ],
+    },
+    {
+      kind: "enum",
+      name: "Color",
+      cases: [
+        { name: "Red", value: 0 },
+        { name: "Green", value: 1 },
+      ],
+    },
     {
       kind: "union",
       name: "Shape",
@@ -104,8 +125,14 @@ describe("compound encoding", () => {
     const map = ok({ kind: "map", key: { kind: "symbol" }, value: { kind: "u32" } }, { b: 2, a: 1 });
     // Host requires sorted keys.
     expect(map.type === "scvMap" && map.map!.map((e) => scValToJson(e.key))).toEqual(["a", "b"]);
-    const pairs = ok({ kind: "map", key: { kind: "u32" }, value: { kind: "bool" } }, [[2, true], [1, false]]);
-    expect(scValToJson(pairs)).toEqual([[1, false], [2, true]]);
+    const pairs = ok({ kind: "map", key: { kind: "u32" }, value: { kind: "bool" } }, [
+      [2, true],
+      [1, false],
+    ]);
+    expect(scValToJson(pairs)).toEqual([
+      [1, false],
+      [2, true],
+    ]);
     expect(err({ kind: "map", key: { kind: "u32" }, value: { kind: "bool" } }, { 1: true }).message).toMatch(/pairs/);
     expect(err({ kind: "map", key: { kind: "symbol" }, value: { kind: "u32" } }, { a: "x" }).path).toBe("value.a");
   });
@@ -133,8 +160,14 @@ describe("compound encoding", () => {
 
   it("round-trips typed values through decode", () => {
     const cases: [TypeDef, unknown][] = [
-      [{ kind: "udt", name: "Shape" }, { tag: "Circle", values: [5] }],
-      [{ kind: "udt", name: "Point" }, { x: -1, y: 2 }],
+      [
+        { kind: "udt", name: "Shape" },
+        { tag: "Circle", values: [5] },
+      ],
+      [
+        { kind: "udt", name: "Point" },
+        { x: -1, y: 2 },
+      ],
       [{ kind: "vec", element: { kind: "udt", name: "Color" } }, ["Red", "Green"]],
       [{ kind: "option", value: { kind: "i128" } }, "42"],
     ];

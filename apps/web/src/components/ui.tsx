@@ -1,12 +1,5 @@
 "use client";
-import {
-  useId,
-  useRef,
-  useState,
-  type ButtonHTMLAttributes,
-  type KeyboardEvent,
-  type ReactNode,
-} from "react";
+import { useId, useRef, useState, type ButtonHTMLAttributes, type KeyboardEvent, type ReactNode } from "react";
 import { AlertTriangle, Check, CheckCircle2, Copy, Info, Loader2, XCircle } from "lucide-react";
 
 export function cx(...parts: (string | false | null | undefined)[]): string {
@@ -61,15 +54,38 @@ const TONES: Record<Tone, string> = {
   accent: "bg-accent/10 text-accent border-accent/30",
 };
 
-export function Badge({ tone = "neutral", children, className, title }: { tone?: Tone; children: ReactNode; className?: string; title?: string }) {
+export function Badge({
+  tone = "neutral",
+  children,
+  className,
+  title,
+}: {
+  tone?: Tone;
+  children: ReactNode;
+  className?: string;
+  title?: string;
+}) {
   return (
-    <span title={title} className={cx("inline-flex items-center gap-1 rounded border px-1.5 py-px font-mono text-[11px] leading-4", TONES[tone], className)}>
+    <span
+      title={title}
+      className={cx("inline-flex items-center gap-1 rounded border px-1.5 py-px font-mono text-[11px] leading-4", TONES[tone], className)}
+    >
       {children}
     </span>
   );
 }
 
-export function Card({ children, className, as: As = "section", ...rest }: { children: ReactNode; className?: string; as?: "section" | "div" | "article"; "aria-labelledby"?: string }) {
+export function Card({
+  children,
+  className,
+  as: As = "section",
+  ...rest
+}: {
+  children: ReactNode;
+  className?: string;
+  as?: "section" | "div" | "article";
+  "aria-labelledby"?: string;
+}) {
   return (
     <As {...rest} className={cx("rounded-lg border border-border bg-panel", className)}>
       {children}
@@ -113,7 +129,17 @@ export function Spinner({ label }: { label: string }) {
   );
 }
 
-export function CopyButton({ text, label = "Copy", className, size = "sm" }: { text: string; label?: string; className?: string; size?: "sm" | "md" }) {
+export function CopyButton({
+  text,
+  label = "Copy",
+  className,
+  size = "sm",
+}: {
+  text: string;
+  label?: string;
+  className?: string;
+  size?: "sm" | "md";
+}) {
   const [state, setState] = useState<"idle" | "copied" | "failed">("idle");
   return (
     <Button
@@ -163,7 +189,8 @@ export function Tabs({
   const refs = useRef<(HTMLButtonElement | null)[]>([]);
   const onKey = (e: KeyboardEvent, i: number) => {
     const n = tabs.length;
-    const next = e.key === "ArrowRight" ? (i + 1) % n : e.key === "ArrowLeft" ? (i - 1 + n) % n : e.key === "Home" ? 0 : e.key === "End" ? n - 1 : -1;
+    const next =
+      e.key === "ArrowRight" ? (i + 1) % n : e.key === "ArrowLeft" ? (i - 1 + n) % n : e.key === "Home" ? 0 : e.key === "End" ? n - 1 : -1;
     if (next < 0) return;
     e.preventDefault();
     onChange(tabs[next]!.id);
@@ -194,14 +221,18 @@ export function Tabs({
               )}
             >
               {t.label}
-              {t.count !== undefined && (
-                <span className="rounded bg-panel-2 px-1.5 font-mono text-[11px] text-muted">{t.count}</span>
-              )}
+              {t.count !== undefined && <span className="rounded bg-panel-2 px-1.5 font-mono text-[11px] text-muted">{t.count}</span>}
             </button>
           );
         })}
       </div>
-      <div role="tabpanel" id={`${base}-panel`} aria-labelledby={`${base}-tab-${active}`} tabIndex={0} className="focus-visible:outline-offset-[-2px]">
+      <div
+        role="tabpanel"
+        id={`${base}-panel`}
+        aria-labelledby={`${base}-tab-${active}`}
+        tabIndex={0}
+        className="focus-visible:outline-offset-[-2px]"
+      >
         {children}
       </div>
     </div>

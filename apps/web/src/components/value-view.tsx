@@ -35,7 +35,9 @@ function Node({ node, label, depth }: { node: ValueNode; label?: string; depth: 
         {open ? <ChevronDown aria-hidden className="size-4" /> : <ChevronRight aria-hidden className="size-4" />}
         {prefix}
         <TypeTag type={node.type} />
-        <span className="text-muted">{count} {node.kind === "vec" ? "items" : "entries"}</span>
+        <span className="text-muted">
+          {count} {node.kind === "vec" ? "items" : "entries"}
+        </span>
       </button>
       {open && (
         <ul className="ml-2 border-l border-border pl-2">
@@ -43,7 +45,12 @@ function Node({ node, label, depth }: { node: ValueNode; label?: string; depth: 
             ? node.items.map((n, i) => <Node key={i} node={n} label={String(i)} depth={depth + 1} />)
             : node.entries.map((e, i) =>
                 e.key.kind === "scalar" ? (
-                  <Node key={i} node={e.value} label={typeof e.key.value === "string" ? e.key.value : JSON.stringify(e.key.value)} depth={depth + 1} />
+                  <Node
+                    key={i}
+                    node={e.value}
+                    label={typeof e.key.value === "string" ? e.key.value : JSON.stringify(e.key.value)}
+                    depth={depth + 1}
+                  />
                 ) : (
                   <li key={i} className="py-0.5">
                     <ul>

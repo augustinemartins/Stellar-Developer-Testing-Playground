@@ -1,0 +1,9 @@
+**/node_modules
+**/.next
+apps/web/public/monaco
+contracts/target
+coverage
+playwright-report
+test-results
+.git
+.env*

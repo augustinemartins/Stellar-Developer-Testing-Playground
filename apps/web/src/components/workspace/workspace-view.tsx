@@ -22,7 +22,10 @@ export function WorkspaceRoute() {
   if (scenarioId && !scenario) {
     return (
       <EmptyState title="Scenario not found">
-        It may have been deleted, or saved in another browser. <Link className="underline" href="/scenarios">Back to scenarios</Link>
+        It may have been deleted, or saved in another browser.{" "}
+        <Link className="underline" href="/scenarios">
+          Back to scenarios
+        </Link>
       </EmptyState>
     );
   }
@@ -31,7 +34,10 @@ export function WorkspaceRoute() {
     return (
       <div className="mx-auto max-w-xl p-8">
         <Alert tone="bad" title="Invalid contract ID" role="alert">
-          {check.reason} <Link className="underline" href="/">Go back</Link>
+          {check.reason}{" "}
+          <Link className="underline" href="/">
+            Go back
+          </Link>
         </Alert>
       </div>
     );
@@ -87,7 +93,17 @@ function WorkspaceView(props: Parameters<typeof useWorkspace>[0]) {
   if (load.status === "error") {
     return (
       <div className="mx-auto max-w-2xl space-y-4 p-8">
-        <Alert tone="bad" role="alert" title={load.code === "not_found" ? "Contract not found" : load.code === "no_spec" ? "No contract interface" : "Could not load the contract"}>
+        <Alert
+          tone="bad"
+          role="alert"
+          title={
+            load.code === "not_found"
+              ? "Contract not found"
+              : load.code === "no_spec"
+                ? "No contract interface"
+                : "Could not load the contract"
+          }
+        >
           <p>{load.message}</p>
           {load.hint && <p className="mt-1 text-muted">{load.hint}</p>}
         </Alert>
@@ -119,7 +135,14 @@ function WorkspaceView(props: Parameters<typeof useWorkspace>[0]) {
           <CopyButton text={c.contractId} label="Copy ID" />
           <Badge>{network.label}</Badge>
           <Badge tone={c.specSource === "network" ? "ok" : "neutral"} title="Where the contract interface came from">
-            spec: {c.specSource === "network" ? "on-chain WASM" : c.specSource === "builtin" ? "built-in SAC" : c.specSource === "fixture" ? "repo fixture" : "imported"}
+            spec:{" "}
+            {c.specSource === "network"
+              ? "on-chain WASM"
+              : c.specSource === "builtin"
+                ? "built-in SAC"
+                : c.specSource === "fixture"
+                  ? "repo fixture"
+                  : "imported"}
           </Badge>
           {c.executable.type === "stellar_asset" && <Badge tone="info">Stellar Asset Contract</Badge>}
           {"wasmHash" in c.executable && c.executable.wasmHash && (
@@ -147,7 +170,7 @@ function WorkspaceView(props: Parameters<typeof useWorkspace>[0]) {
         <EmptyState title="This contract exposes no callable functions" />
       ) : (
         <div className="mx-auto grid w-full max-w-[1600px] flex-1 grid-cols-1 lg:grid-cols-[240px_minmax(360px,1fr)_minmax(420px,1.25fr)]">
-          <aside className="border-b border-border bg-panel lg:sticky lg:top-14 lg:h-[calc(100dvh-7rem)] lg:border-b-0 lg:border-r">
+          <aside className="border-b border-border bg-panel lg:sticky lg:top-14 lg:h-[calc(100dvh-3.5rem)] lg:border-b-0 lg:border-r">
             <div className="max-h-72 lg:h-full lg:max-h-none">
               <MethodList functions={ws.functions} selected={ws.method} onSelect={ws.setMethod} />
             </div>
@@ -155,7 +178,7 @@ function WorkspaceView(props: Parameters<typeof useWorkspace>[0]) {
           <section aria-label="Function inputs" className="border-b border-border bg-panel px-4 pt-4 lg:border-b-0 lg:border-r">
             <FunctionPanel ws={ws} />
           </section>
-          <div className="min-h-[24rem] bg-panel lg:sticky lg:top-14 lg:h-[calc(100dvh-7rem)]">
+          <div className="min-h-[24rem] bg-panel lg:sticky lg:top-14 lg:h-[calc(100dvh-3.5rem)]">
             <ResultPanel ws={ws} />
           </div>
         </div>

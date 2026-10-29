@@ -1,4 +1,4 @@
-import { findUdt, formatType, type ContractSpec, type FunctionSpec, type TypeDef } from "@playground/shared-types";
+import { formatType, type ContractSpec, type FunctionSpec, type TypeDef } from "@playground/shared-types";
 import { isStringKey, isTupleStruct } from "./templates";
 
 /** Subset of JSON Schema (draft-07) used to drive editor validation and completion. */
@@ -161,24 +161,25 @@ function udtDefinitions(spec: ContractSpec): Record<string, JsonSchema> {
         defs[udt.name] = {
           title: udt.name,
           description: udt.doc ?? `enum ${udt.name}`,
-          oneOf: udt.cases.map((c): JsonSchema =>
-            c.kind === "void"
-              ? { const: c.name, description: c.doc ?? c.name }
-              : {
-                  type: "object",
-                  description: c.doc ?? `${c.name}(${c.types.map(formatType).join(", ")})`,
-                  properties: {
-                    tag: { const: c.name },
-                    values: {
-                      type: "array",
-                      items: c.types.map((t) => schemaFor(t, spec)),
-                      minItems: c.types.length,
-                      maxItems: c.types.length,
+          oneOf: udt.cases.map(
+            (c): JsonSchema =>
+              c.kind === "void"
+                ? { const: c.name, description: c.doc ?? c.name }
+                : {
+                    type: "object",
+                    description: c.doc ?? `${c.name}(${c.types.map(formatType).join(", ")})`,
+                    properties: {
+                      tag: { const: c.name },
+                      values: {
+                        type: "array",
+                        items: c.types.map((t) => schemaFor(t, spec)),
+                        minItems: c.types.length,
+                        maxItems: c.types.length,
+                      },
                     },
+                    required: ["tag", "values"],
+                    additionalProperties: false,
                   },
-                  required: ["tag", "values"],
-                  additionalProperties: false,
-                },
           ),
         };
         break;
@@ -206,7 +207,7 @@ export function argsJsonSchema(fn: FunctionSpec, spec: ContractSpec): JsonSchema
       fn.inputs.map((i) => {
         const s = schemaFor(i.type, spec);
         const description = [formatType(i.type), i.doc].filter(Boolean).join(" — ");
-        return [i.name, s.$ref ? { allOf: [s], description } as JsonSchema : { ...s, description }];
+        return [i.name, s.$ref ? ({ allOf: [s], description } as JsonSchema) : { ...s, description }];
       }),
     ),
     required: fn.inputs.map((i) => i.name),

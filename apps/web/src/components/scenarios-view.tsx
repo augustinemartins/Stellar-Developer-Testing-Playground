@@ -1,7 +1,19 @@
 "use client";
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { CheckCircle2, ClipboardPaste, Download, ExternalLink, FileUp, Library, Link2, Play, PlayCircle, Trash2, XCircle } from "lucide-react";
+import {
+  CheckCircle2,
+  ClipboardPaste,
+  Download,
+  ExternalLink,
+  FileUp,
+  Library,
+  Link2,
+  Play,
+  PlayCircle,
+  Trash2,
+  XCircle,
+} from "lucide-react";
 import { parseScenarioJson, parseScenarios, type Scenario } from "@playground/shared-types";
 import {
   decodeShareToken,
@@ -100,8 +112,8 @@ export function ScenariosView() {
             <Library aria-hidden className="size-6" /> Saved scenarios
           </h1>
           <p className="mt-1 max-w-2xl text-sm text-muted">
-            Scenarios capture a contract call and its expected outcome. Replay them to catch regressions, share them as links, or export them as tests.
-            They are stored in this browser only.
+            Scenarios capture a contract call and its expected outcome. Replay them to catch regressions, share them as links, or export
+            them as tests. They are stored in this browser only.
           </p>
         </div>
         <div className="flex flex-wrap gap-2">
@@ -166,7 +178,13 @@ export function ScenariosView() {
         <Card className="space-y-2 p-4">
           <label className="block text-sm font-medium">
             Scenario JSON (a scenario, an array, or a collection)
-            <textarea rows={8} spellCheck={false} value={paste} onChange={(e) => setPaste(e.target.value)} className={cx(inputClass, "mt-1 font-mono text-xs")} />
+            <textarea
+              rows={8}
+              spellCheck={false}
+              value={paste}
+              onChange={(e) => setPaste(e.target.value)}
+              className={cx(inputClass, "mt-1 font-mono text-xs")}
+            />
           </label>
           <div className="flex gap-2">
             <Button
@@ -227,15 +245,25 @@ export function ScenariosView() {
       {store.scenarios.length === 0 ? (
         <Card>
           <EmptyState icon={<Library className="size-8" />} title="No saved scenarios yet">
-            Simulate a call in the <Link className="underline" href="/">playground</Link>, then use <strong>Save &amp; export</strong> on the result. You can also import the
-            examples from <code className="font-mono">examples/scenarios/</code> in the repository.
+            Simulate a call in the{" "}
+            <Link className="underline" href="/">
+              playground
+            </Link>
+            , then use <strong>Save &amp; export</strong> on the result. You can also import the examples from{" "}
+            <code className="font-mono">examples/scenarios/</code> in the repository.
           </EmptyState>
         </Card>
       ) : (
         <ul className="space-y-3">
           {store.scenarios.map((s) => (
             <li key={s.id}>
-              <ScenarioCard s={s} run={runs[s.id]} last={store.lastRuns[s.id]} onReplay={() => replay(s)} onDelete={() => store.remove(s.id)} />
+              <ScenarioCard
+                s={s}
+                run={runs[s.id]}
+                last={store.lastRuns[s.id]}
+                onReplay={() => replay(s)}
+                onDelete={() => store.remove(s.id)}
+              />
             </li>
           ))}
         </ul>
@@ -270,10 +298,33 @@ function ScenarioFacts({ s }: { s: Scenario }) {
   );
 }
 
-function ScenarioCard({ s, run, last, onReplay, onDelete }: { s: Scenario; run?: RunState; last?: LastRun; onReplay: () => void; onDelete: () => void }) {
+function ScenarioCard({
+  s,
+  run,
+  last,
+  onReplay,
+  onDelete,
+}: {
+  s: Scenario;
+  run?: RunState;
+  last?: LastRun;
+  onReplay: () => void;
+  onDelete: () => void;
+}) {
   const [confirm, setConfirm] = useState(false);
   const [linkState, setLinkState] = useState<string | null>(null);
-  const status = run?.status === "done" ? (run.result.passed ? "pass" : "fail") : run?.status === "error" ? "fail" : last ? (last.passed ? "pass" : "fail") : null;
+  const status =
+    run?.status === "done"
+      ? run.result.passed
+        ? "pass"
+        : "fail"
+      : run?.status === "error"
+        ? "fail"
+        : last
+          ? last.passed
+            ? "pass"
+            : "fail"
+          : null;
 
   return (
     <Card as="article" className="p-4" aria-labelledby={`sc-${s.id}`}>
@@ -303,7 +354,10 @@ function ScenarioCard({ s, run, last, onReplay, onDelete }: { s: Scenario; run?:
           <Button size="sm" variant="primary" loading={run?.status === "running"} onClick={onReplay}>
             <Play aria-hidden className="size-3.5" /> Replay
           </Button>
-          <Link href={workspaceHref({ scenario: s.id })} className="inline-flex h-8 items-center gap-1 rounded-md border border-border px-2.5 text-xs font-medium hover:bg-panel-2">
+          <Link
+            href={workspaceHref({ scenario: s.id })}
+            className="inline-flex h-8 items-center gap-1 rounded-md border border-border px-2.5 text-xs font-medium hover:bg-panel-2"
+          >
             <ExternalLink aria-hidden className="size-3.5" /> Open
           </Link>
           <Button
@@ -320,10 +374,18 @@ function ScenarioCard({ s, run, last, onReplay, onDelete }: { s: Scenario; run?:
           >
             <Link2 aria-hidden className="size-3.5" /> Share
           </Button>
-          <Button size="sm" onClick={() => downloadText(safeFilename(s.name, ".scenario.json"), scenarioToJson(s))} aria-label={`Download ${s.name} as JSON`}>
+          <Button
+            size="sm"
+            onClick={() => downloadText(safeFilename(s.name, ".scenario.json"), scenarioToJson(s))}
+            aria-label={`Download ${s.name} as JSON`}
+          >
             <Download aria-hidden className="size-3.5" /> JSON
           </Button>
-          <Button size="sm" onClick={() => downloadText(safeFilename(s.name, ".test.ts"), scenarioToVitest(s), "text/typescript")} aria-label={`Download ${s.name} as a Vitest test`}>
+          <Button
+            size="sm"
+            onClick={() => downloadText(safeFilename(s.name, ".test.ts"), scenarioToVitest(s), "text/typescript")}
+            aria-label={`Download ${s.name} as a Vitest test`}
+          >
             <Download aria-hidden className="size-3.5" /> Test
           </Button>
           {confirm ? (
@@ -362,7 +424,8 @@ function RunDetails({ result }: { result: ScenarioRunResult }) {
   return (
     <div className="mt-3 space-y-3 border-t border-border pt-3">
       <p className="text-xs text-muted">
-        Replayed at ledger {r.latestLedger.toLocaleString("en-US")} in {result.run.durationMs} ms — status <strong className="text-fg">{r.status}</strong>
+        Replayed at ledger {r.latestLedger.toLocaleString("en-US")} in {result.run.durationMs} ms — status{" "}
+        <strong className="text-fg">{r.status}</strong>
         {r.error ? `: ${r.error.summary}` : ""}.
       </p>
       {result.assertions.length > 0 ? (
@@ -371,26 +434,40 @@ function RunDetails({ result }: { result: ScenarioRunResult }) {
             <caption className="sr-only">Expectation results</caption>
             <thead className="text-muted">
               <tr>
-                <th scope="col" className="py-1 pr-3 font-medium">Check</th>
-                <th scope="col" className="py-1 pr-3 font-medium">Expected</th>
-                <th scope="col" className="py-1 pr-3 font-medium">Actual</th>
-                <th scope="col" className="py-1 font-medium">Result</th>
+                <th scope="col" className="py-1 pr-3 font-medium">
+                  Check
+                </th>
+                <th scope="col" className="py-1 pr-3 font-medium">
+                  Expected
+                </th>
+                <th scope="col" className="py-1 pr-3 font-medium">
+                  Actual
+                </th>
+                <th scope="col" className="py-1 font-medium">
+                  Result
+                </th>
               </tr>
             </thead>
             <tbody className="divide-y divide-border">
               {result.assertions.map((a) => (
                 <tr key={a.key}>
-                  <th scope="row" className="py-1 pr-3 font-medium">{a.label}</th>
+                  <th scope="row" className="py-1 pr-3 font-medium">
+                    {a.label}
+                  </th>
                   <td className="max-w-xs break-all py-1 pr-3 font-mono">{a.expected}</td>
                   <td className="max-w-xs break-all py-1 pr-3 font-mono">{a.actual}</td>
-                  <td className="py-1">{a.passed ? <span className="text-ok">✓ pass</span> : <span className="font-semibold text-bad">✗ fail</span>}</td>
+                  <td className="py-1">
+                    {a.passed ? <span className="text-ok">✓ pass</span> : <span className="font-semibold text-bad">✗ fail</span>}
+                  </td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
       ) : (
-        <p className="text-xs text-muted">This scenario has no expectations, so it always passes. Save it again with “Lock this result” to add checks.</p>
+        <p className="text-xs text-muted">
+          This scenario has no expectations, so it always passes. Save it again with “Lock this result” to add checks.
+        </p>
       )}
       {result.drift.length > 0 && (
         <details className="text-xs">

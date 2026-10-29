@@ -37,7 +37,8 @@ function controlFor(type: TypeDef, spec: ContractSpec): Control {
       return { kind: "option", inner: type.value };
     case "udt": {
       const udt = findUdt(spec, type.name);
-      if (udt?.kind === "enum") return { kind: "select", options: udt.cases.map((c) => ({ label: `${c.name} (${c.value})`, value: c.name })) };
+      if (udt?.kind === "enum")
+        return { kind: "select", options: udt.cases.map((c) => ({ label: `${c.name} (${c.value})`, value: c.name })) };
       if (udt?.kind === "union" && udt.cases.every((c) => c.kind === "void")) {
         return { kind: "select", options: udt.cases.map((c) => ({ label: c.name, value: c.name })) };
       }

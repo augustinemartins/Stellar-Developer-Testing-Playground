@@ -1,12 +1,5 @@
-import { contract, xdr } from "@stellar/stellar-sdk";
-import type {
-  ContractSpec,
-  EventSpec,
-  FunctionSpec,
-  PrimitiveTypeName,
-  TypeDef,
-  UdtSpec,
-} from "@playground/shared-types";
+import { contract, type xdr } from "@stellar/stellar-sdk";
+import type { ContractSpec, EventSpec, FunctionSpec, PrimitiveTypeName, TypeDef, UdtSpec } from "@playground/shared-types";
 
 type XdrStringLike = { toString(): string } | string;
 

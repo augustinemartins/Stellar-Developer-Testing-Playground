@@ -1,10 +1,5 @@
-import { rpc, xdr } from "@stellar/stellar-sdk";
-import type {
-  ContractSpec,
-  FunctionSpec,
-  SimulationReport,
-  StateChange,
-} from "@playground/shared-types";
+import { type rpc, xdr } from "@stellar/stellar-sdk";
+import type { ContractSpec, FunctionSpec, SimulationReport, StateChange } from "@playground/shared-types";
 import { parseAuthEntry } from "./auth";
 import { parseSimulationError } from "./errors";
 import { parseEvent } from "./events";
@@ -94,9 +89,7 @@ export function parseSimulation(raw: RawSimulation, ctx: ParseContext = {}): Sim
     latestLedger: raw.latestLedger,
     returnValue,
     returnValueTyped:
-      returnValue && outType && ctx.spec
-        ? scValToTypedJson(xdr.ScVal.fromXdr(returnValue.xdr, "base64"), outType, ctx.spec)
-        : undefined,
+      returnValue && outType && ctx.spec ? scValToTypedJson(xdr.ScVal.fromXdr(returnValue.xdr, "base64"), outType, ctx.spec) : undefined,
     fees: raw.minResourceFee !== undefined ? { minResourceFee: raw.minResourceFee, inclusionFee } : undefined,
     resources: raw.transactionData ? resourcesFrom(raw.transactionData, ctx.txSizeBytes) : undefined,
     auth: (result?.auth ?? []).map((a) => parseAuthEntry(a)),

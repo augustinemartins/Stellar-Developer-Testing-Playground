@@ -12,3 +12,4 @@ allowBuilds:
 
 overrides:
   postcss: ">=8.5.30"
+  zod: ">=4.6.7"

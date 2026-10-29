@@ -23,15 +23,16 @@ export async function copyText(text: string): Promise<boolean> {
 }
 
 export function safeFilename(name: string, ext: string): string {
-  const base = name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 60) || "scenario";
+  const base =
+    name
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-|-$/g, "")
+      .slice(0, 60) || "scenario";
   return `${base}${ext}`;
 }
 
 /** JSON.stringify that tolerates bigint and Uint8Array (for raw debug views). */
 export function debugJson(value: unknown): string {
-  return JSON.stringify(
-    value,
-    (_k, v) => (typeof v === "bigint" ? v.toString() : v instanceof Uint8Array ? Array.from(v) : v),
-    2,
-  );
+  return JSON.stringify(value, (_k, v) => (typeof v === "bigint" ? v.toString() : v instanceof Uint8Array ? Array.from(v) : v), 2);
 }

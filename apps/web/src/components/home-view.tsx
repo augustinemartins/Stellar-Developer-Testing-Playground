@@ -21,14 +21,20 @@ export function HomeView() {
             Simulate Soroban contract calls. <span className="text-accent">Keep them as tests.</span>
           </h1>
           <p className="max-w-2xl text-muted">
-            Load a contract, call any method with typed arguments and inspect exactly what the network would do — return
-            value, fees, resources, required signatures and events — without signing or submitting anything. Save the
-            call as a reproducible scenario, share it as a link, or export it as a Vitest test for CI.
+            Load a contract, call any method with typed arguments and inspect exactly what the network would do — return value, fees,
+            resources, required signatures and events — without signing or submitting anything. Save the call as a reproducible scenario,
+            share it as a link, or export it as a Vitest test for CI.
           </p>
           <ul className="flex flex-wrap gap-x-5 gap-y-2 text-sm text-muted">
-            <li className="flex items-center gap-1.5"><ShieldCheck aria-hidden className="size-4 text-ok" /> Read-only: nothing is ever signed</li>
-            <li className="flex items-center gap-1.5"><TestTube2 aria-hidden className="size-4 text-accent" /> Scenarios with assertions</li>
-            <li className="flex items-center gap-1.5"><Share2 aria-hidden className="size-4 text-info" /> Shareable links</li>
+            <li className="flex items-center gap-1.5">
+              <ShieldCheck aria-hidden className="size-4 text-ok" /> Read-only: nothing is ever signed
+            </li>
+            <li className="flex items-center gap-1.5">
+              <TestTube2 aria-hidden className="size-4 text-accent" /> Scenarios with assertions
+            </li>
+            <li className="flex items-center gap-1.5">
+              <Share2 aria-hidden className="size-4 text-info" /> Shareable links
+            </li>
           </ul>
         </div>
         <Card className="p-4">
@@ -45,7 +51,9 @@ export function HomeView() {
             <h2 id="samples-heading" className="flex items-center gap-2 text-lg font-semibold">
               <Boxes aria-hidden className="size-5" /> Sample contracts
             </h2>
-            <p className="text-sm text-muted">Deployed on testnet from <code className="font-mono text-xs">contracts/</code> in this repository.</p>
+            <p className="text-sm text-muted">
+              Deployed on testnet from <code className="font-mono text-xs">contracts/</code> in this repository.
+            </p>
           </div>
         </div>
         {!onTestnet && (
@@ -101,7 +109,10 @@ export function HomeView() {
             <ul className="divide-y divide-border rounded-lg border border-border bg-panel">
               {recents.map((r) => (
                 <li key={`${r.networkPassphrase}:${r.contractId}`}>
-                  <Link href={workspaceHref({ contractId: r.contractId })} className="flex items-center justify-between gap-3 px-3 py-2 text-sm hover:bg-panel-2">
+                  <Link
+                    href={workspaceHref({ contractId: r.contractId })}
+                    className="flex items-center justify-between gap-3 px-3 py-2 text-sm hover:bg-panel-2"
+                  >
                     <span className="truncate">{r.label ?? "Contract"}</span>
                     <span className="font-mono text-xs text-muted">{shorten(r.contractId)}</span>
                   </Link>

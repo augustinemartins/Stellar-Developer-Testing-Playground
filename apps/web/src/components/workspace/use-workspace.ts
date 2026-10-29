@@ -10,14 +10,7 @@ import {
   type LoadedContract,
   type SampleContract,
 } from "@playground/contract-loader";
-import {
-  ContractSpecSchema,
-  NETWORKS,
-  type AuthMode,
-  type ContractSpec,
-  type JsonValue,
-  type Scenario,
-} from "@playground/shared-types";
+import { ContractSpecSchema, NETWORKS, type AuthMode, type ContractSpec, type JsonValue, type Scenario } from "@playground/shared-types";
 import {
   InvocationInputError,
   fetchNetworkLimits,
@@ -65,7 +58,8 @@ export async function parseSpecFile(file: File): Promise<ContractSpec> {
   if (Array.isArray(data) && data.every((d) => typeof d === "string")) return specFromXdr(data as string[]);
   const candidate = data && typeof data === "object" && "spec" in data ? (data as { spec: unknown }).spec : data;
   const parsed = ContractSpecSchema.safeParse(candidate);
-  if (!parsed.success) throw new Error("This file is not a contract spec (expected playground spec JSON, base64 XDR entries or a .wasm file).");
+  if (!parsed.success)
+    throw new Error("This file is not a contract spec (expected playground spec JSON, base64 XDR entries or a .wasm file).");
   return parsed.data;
 }
 
@@ -137,13 +131,23 @@ export function useWorkspace({ contractId, sampleSlug, initialMethod, scenario }
     if (isSampleOnTestnet && sample) {
       // Fixture first for an instant UI; then confirm the deployment still exists.
       ready(
-        { ...base, executable: sample.wasmHash ? { type: "wasm", wasmHash: sample.wasmHash } : { type: "stellar_asset" }, spec: sample.spec, specSource: "fixture" },
+        {
+          ...base,
+          executable: sample.wasmHash ? { type: "wasm", wasmHash: sample.wasmHash } : { type: "stellar_asset" },
+          spec: sample.spec,
+          specSource: "fixture",
+        },
         sample.title,
       );
       loadContractFromNetwork(contractId, network).catch((e) => {
         if (e instanceof ContractLoadError && e.code === "not_found") {
           ready(
-            { ...base, executable: sample.wasmHash ? { type: "wasm", wasmHash: sample.wasmHash } : { type: "stellar_asset" }, spec: sample.spec, specSource: "fixture" },
+            {
+              ...base,
+              executable: sample.wasmHash ? { type: "wasm", wasmHash: sample.wasmHash } : { type: "stellar_asset" },
+              spec: sample.spec,
+              specSource: "fixture",
+            },
             sample.title,
             "This sample is not deployed on testnet right now (testnet is reset periodically). Simulations will fail until it is redeployed with `pnpm contracts:deploy`.",
           );
@@ -244,7 +248,14 @@ export function useWorkspace({ contractId, sampleSlug, initialMethod, scenario }
       const spec = await parseSpecFile(file);
       setLoad({
         status: "ready",
-        contract: { contractId, networkPassphrase: network.networkPassphrase, executable: { type: "unknown" }, spec, specSource: "inline", loadedAt: new Date().toISOString() },
+        contract: {
+          contractId,
+          networkPassphrase: network.networkPassphrase,
+          executable: { type: "unknown" },
+          spec,
+          specSource: "inline",
+          loadedAt: new Date().toISOString(),
+        },
         label: file.name,
         warning: "Using an imported spec. Simulations still run against the deployed contract, so the spec must match it.",
       });

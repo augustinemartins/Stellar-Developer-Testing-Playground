@@ -13,16 +13,7 @@ import { readFileSync, writeFileSync } from "node:fs";
 import { createHash, randomBytes } from "node:crypto";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import {
-  Address,
-  Keypair,
-  Operation,
-  TransactionBuilder,
-  nativeToScVal,
-  rpc,
-  xdr,
-  scValToNative,
-} from "@stellar/stellar-sdk";
+import { Address, Keypair, Operation, TransactionBuilder, nativeToScVal, rpc, type xdr, scValToNative } from "@stellar/stellar-sdk";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const RPC_URL = process.env.STELLAR_RPC_URL ?? "https://soroban-testnet.stellar.org";
@@ -31,10 +22,7 @@ const server = new rpc.Server(RPC_URL, { allowHttp: RPC_URL.startsWith("http://"
 
 async function submit(signer: Keypair, op: xdr.Operation): Promise<rpc.Api.GetSuccessfulTransactionResponse> {
   const account = await server.getAccount(signer.publicKey());
-  const tx = new TransactionBuilder(account, { fee: "1000000", networkPassphrase: PASSPHRASE })
-    .addOperation(op)
-    .setTimeout(60)
-    .build();
+  const tx = new TransactionBuilder(account, { fee: "1000000", networkPassphrase: PASSPHRASE }).addOperation(op).setTimeout(60).build();
   const prepared = await server.prepareTransaction(tx);
   prepared.sign(signer);
   const sent = await server.sendTransaction(prepared);
@@ -94,10 +82,7 @@ async function main() {
   ]);
   const mint = await submit(
     deployer,
-    invoke(token.contractId, "mint", [
-      new Address(holder.publicKey()).toScVal(),
-      nativeToScVal(1_000_0000000n, { type: "i128" }),
-    ]),
+    invoke(token.contractId, "mint", [new Address(holder.publicKey()).toScVal(), nativeToScVal(1_000_0000000n, { type: "i128" })]),
   );
   console.log(`  minted 1000 PLAY to holder (ledger ${mint.ledger}, return ${scValToNative(mint.returnValue!)})`);
 

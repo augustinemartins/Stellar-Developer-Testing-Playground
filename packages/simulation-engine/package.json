@@ -12,5 +12,10 @@
   "scripts": {
     "typecheck": "tsc -p tsconfig.json"
   },
-  "dependencies": {"@stellar/stellar-sdk": "17.2.1", "@playground/shared-types": "workspace:*", "@playground/contract-loader": "workspace:*", "@playground/result-parser": "workspace:*"}
+  "dependencies": {
+    "@stellar/stellar-sdk": "17.2.1",
+    "@playground/shared-types": "workspace:*",
+    "@playground/contract-loader": "workspace:*",
+    "@playground/result-parser": "workspace:*"
+  }
 }

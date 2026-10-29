@@ -58,12 +58,18 @@ export function checkContractId(input: string): ContractIdCheck {
 
 const specCache = new Map<string, ContractSpec>();
 
+// The SDK sometimes throws plain objects such as `{ code: 404, message }` rather than Errors.
 function errorMessage(e: unknown): string {
-  return e instanceof Error ? e.message : String(e);
+  if (e instanceof Error) return e.message;
+  if (e && typeof e === "object" && typeof (e as { message?: unknown }).message === "string") {
+    return (e as { message: string }).message;
+  }
+  return String(e);
 }
 
 function isNotFound(e: unknown): boolean {
-  return /not found|could not find|no .* entry|404/i.test(errorMessage(e));
+  if (e && typeof e === "object" && (e as { code?: unknown }).code === 404) return true;
+  return /not found|could not find|could not obtain|no .* entry|404/i.test(errorMessage(e));
 }
 
 /**
@@ -79,8 +85,7 @@ export async function loadContractFromNetwork(
 ): Promise<LoadedContract> {
   const check = checkContractId(contractId);
   if (!check.ok) throw new ContractLoadError("invalid_id", check.reason);
-  const server =
-    options.server ?? new rpc.Server(network.rpcUrl, { allowHttp: network.rpcUrl.startsWith("http://") });
+  const server = options.server ?? new rpc.Server(network.rpcUrl, { allowHttp: network.rpcUrl.startsWith("http://") });
 
   let instance: Awaited<ReturnType<rpc.Server["getContractInstance"]>>;
   try {

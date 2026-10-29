@@ -14,7 +14,10 @@ function invocationNode(inv: xdr.SorobanAuthorizedInvocation): InvocationNode {
       subInvocations,
     };
   }
-  if (fn.type === "sorobanAuthorizedFunctionTypeCreateContractHostFn" || fn.type === "sorobanAuthorizedFunctionTypeCreateContractV2HostFn") {
+  if (
+    fn.type === "sorobanAuthorizedFunctionTypeCreateContractHostFn" ||
+    fn.type === "sorobanAuthorizedFunctionTypeCreateContractV2HostFn"
+  ) {
     return { kind: "create_contract", args: [], subInvocations };
   }
   return { kind: "unknown", args: [], subInvocations };

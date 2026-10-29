@@ -102,30 +102,42 @@ export function ResourcesTab({ run, limits }: { run: SimulationRun; limits: Netw
           </div>
         </dl>
         <p className="text-xs text-muted">
-          The resource fee covers CPU, ledger reads/writes, transaction size, events and rent. Real submissions typically add a safety margin;
-          the inclusion fee rises under network congestion.
+          The resource fee covers CPU, ledger reads/writes, transaction size, events and rent. Real submissions typically add a safety
+          margin; the inclusion fee rises under network congestion.
         </p>
       </section>
 
       <section aria-labelledby="res-h" className="space-y-3">
         <h3 id="res-h" className="flex items-center gap-2 text-sm font-semibold">
           Resource usage vs. per-transaction limits
-          {limits && <Badge tone={limits.source === "live" ? "ok" : "warn"}>{limits.source === "live" ? "live network limits" : "documented defaults"}</Badge>}
+          {limits && (
+            <Badge tone={limits.source === "live" ? "ok" : "warn"}>
+              {limits.source === "live" ? "live network limits" : "documented defaults"}
+            </Badge>
+          )}
         </h3>
         {limits ? (
           <div className="space-y-3">
             <Meter label="CPU instructions" value={res.instructions} max={limits.txMaxInstructions} />
             <Meter label="Disk read bytes" value={res.diskReadBytes} max={limits.txMaxDiskReadBytes} unit="bytes" />
             <Meter label="Write bytes" value={res.writeBytes} max={limits.txMaxWriteBytes} unit="bytes" />
-            <Meter label="Ledger entries read" value={res.readOnlyEntries + res.readWriteEntries} max={limits.txMaxDiskReadEntries} unit="entries" />
+            <Meter
+              label="Ledger entries read"
+              value={res.readOnlyEntries + res.readWriteEntries}
+              max={limits.txMaxDiskReadEntries}
+              unit="entries"
+            />
             <Meter label="Ledger entries written" value={res.readWriteEntries} max={limits.txMaxWriteLedgerEntries} unit="entries" />
-            {res.txSizeBytes !== undefined && <Meter label="Transaction size" value={res.txSizeBytes} max={limits.txMaxSizeBytes} unit="bytes" />}
+            {res.txSizeBytes !== undefined && (
+              <Meter label="Transaction size" value={res.txSizeBytes} max={limits.txMaxSizeBytes} unit="bytes" />
+            )}
           </div>
         ) : (
           <p className="text-sm text-muted">Loading network limits…</p>
         )}
         <p className="text-xs text-muted">
-          Entry counts are upper bounds: entries already in memory (such as the contract instance and code) may not count against disk-read limits.
+          Entry counts are upper bounds: entries already in memory (such as the contract instance and code) may not count against disk-read
+          limits.
         </p>
       </section>
 

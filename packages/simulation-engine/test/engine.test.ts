@@ -1,7 +1,7 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it, vi } from "vitest";
-import { Account, rpc } from "@stellar/stellar-sdk";
+import { Account, type rpc } from "@stellar/stellar-sdk";
 import { NETWORKS, ScenarioSchema, parseScenarios, type Scenario } from "@playground/shared-types";
 import { SAMPLE_CONTRACTS, SAMPLE_DEPLOYMENTS } from "@playground/contract-loader";
 import {
@@ -205,7 +205,10 @@ describe("exports", () => {
     const compressed = new Uint8Array(
       await new Response(new Blob([bomb]).stream().pipeThrough(new CompressionStream("deflate-raw"))).arrayBuffer(),
     );
-    const b64 = btoa(String.fromCharCode(...compressed)).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+    const b64 = btoa(String.fromCharCode(...compressed))
+      .replace(/\+/g, "-")
+      .replace(/\//g, "_")
+      .replace(/=+$/, "");
     await expect(decodeShareToken(`s1.${b64}`)).rejects.toThrow(/too large/);
   });
 });

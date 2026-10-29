@@ -4,10 +4,7 @@
   "id": "counter-reset-auth",
   "name": "Counter: Reset as owner",
   "description": "Requires the owner's signature. The Auth tab shows the authorization entry a wallet would sign.",
-  "tags": [
-    "counter",
-    "auth"
-  ],
+  "tags": ["counter", "auth"],
   "createdAt": "2026-10-29T11:01:52.698Z",
   "updatedAt": "2026-10-29T11:01:52.698Z",
   "network": {
@@ -179,9 +176,7 @@
         {
           "name": "Reset",
           "doc": "Emitted when the owner resets the counter.",
-          "prefixTopics": [
-            "reset"
-          ],
+          "prefixTopics": ["reset"],
           "params": [
             {
               "name": "owner",
@@ -203,9 +198,7 @@
         {
           "name": "Incremented",
           "doc": "Emitted every time the counter changes.",
-          "prefixTopics": [
-            "incremented"
-          ],
+          "prefixTopics": ["incremented"],
           "params": [
             {
               "name": "step",
@@ -241,16 +234,12 @@
     "maxResourceFee": "152279",
     "maxInstructions": 1666332,
     "contractEventCount": 1,
-    "requiredAuth": [
-      "GA2MRJ5ETJBGSTYZQJHY7KV5YZOE24DPVBIB22LZSBETJ4HOVXX437CI"
-    ]
+    "requiredAuth": ["GA2MRJ5ETJBGSTYZQJHY7KV5YZOE24DPVBIB22LZSBETJ4HOVXX437CI"]
   },
   "recorded": {
     "at": "2026-10-29T11:01:52.446Z",
     "latestLedger": 5449614,
-    "argsXdr": [
-      "AAAAEgAAAAAAAAAANMinpJpCaU8Zgk+Pqr3GXE1wb6hQHWl5kEk08O6t780="
-    ],
+    "argsXdr": ["AAAAEgAAAAAAAAAANMinpJpCaU8Zgk+Pqr3GXE1wb6hQHWl5kEk08O6t780="],
     "transactionXdr": "AAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAGQAAAAAAAAAAQAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAGAAAAAAAAAABrjbIYygIEZWqmKx6vMORB7+Zky2GTHocGy4YbDQ+N0YAAAAFcmVzZXQAAAAAAAABAAAAEgAAAAAAAAAANMinpJpCaU8Zgk+Pqr3GXE1wb6hQHWl5kEk08O6t780AAAAAAAAAAAAAAAA=",
     "report": {
       "status": "success",

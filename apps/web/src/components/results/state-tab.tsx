@@ -16,7 +16,9 @@ export function StateTab({ run }: { run: SimulationRun }) {
   }
   return (
     <div className="space-y-2 p-4">
-      <p className="text-sm text-muted">What submitting this transaction would change, according to the simulation. Values are shown for contract data entries.</p>
+      <p className="text-sm text-muted">
+        What submitting this transaction would change, according to the simulation. Values are shown for contract data entries.
+      </p>
       <ul className="divide-y divide-border rounded-md border border-border">
         {changes.map((c, i) => (
           <li key={i} className="space-y-1 px-3 py-2 text-sm">

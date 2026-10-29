@@ -1,7 +1,7 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it, vi } from "vitest";
-import { Keypair, StrKey, rpc, xdr } from "@stellar/stellar-sdk";
+import { Keypair, StrKey, type rpc, xdr } from "@stellar/stellar-sdk";
 import { ContractSpecSchema } from "@playground/shared-types";
 import {
   ContractLoadError,
@@ -28,7 +28,10 @@ describe("specFromWasm", () => {
     const memo = tokenSpec.types.find((t) => t.name === "Memo");
     expect(memo).toMatchObject({ kind: "union", cases: [{ name: "Text" }, { name: "Id" }, { name: "Hash" }] });
     const err = tokenSpec.types.find((t) => t.kind === "error_enum");
-    expect(err).toMatchObject({ name: "TokenError", cases: expect.arrayContaining([{ name: "InsufficientBalance", value: 2, doc: expect.any(String) }]) });
+    expect(err).toMatchObject({
+      name: "TokenError",
+      cases: expect.arrayContaining([{ name: "InsufficientBalance", value: 2, doc: expect.any(String) }]),
+    });
     const transfer = tokenSpec.events.find((e) => e.name === "Transfer");
     expect(transfer).toMatchObject({ prefixTopics: ["transfer"], dataFormat: "map" });
     expect(transfer?.params.map((p) => p.location)).toEqual(["topic", "topic", "data"]);
@@ -151,6 +154,12 @@ describe("loadContractFromNetwork", () => {
     expect(err).toBeInstanceOf(ContractLoadError);
     expect(err.code).toBe("not_found");
     expect(err.hint).toMatch(/reset/);
+  });
+
+  it("treats the SDK's plain { code: 404 } rejection as not_found", async () => {
+    const rejection = { code: 404, message: "Could not obtain contract instance from server" };
+    const server = fakeServer({ getContractInstance: vi.fn().mockRejectedValue(rejection) });
+    await expect(loadContractFromNetwork(VALID_ID, network, { server })).rejects.toMatchObject({ code: "not_found" });
   });
 
   it("maps transport failures to network errors", async () => {

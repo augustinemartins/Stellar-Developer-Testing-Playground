@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import { useEffect, useId, useMemo, useState } from "react";
 import { Braces, KeyRound, ListChecks, Play, Sparkles } from "lucide-react";
 import { Keypair, StrKey } from "@stellar/stellar-sdk";
@@ -13,7 +14,11 @@ import type { Workspace } from "./use-workspace";
 const AUTH_MODES: { value: AuthMode; label: string; help: string }[] = [
   { value: "record", label: "Record", help: "Discover which signatures the call needs. Best for exploring." },
   { value: "enforce", label: "Enforce", help: "Require valid auth entries; unsigned calls that need auth fail." },
-  { value: "record_allow_nonroot", label: "Record (allow non-root)", help: "Like record, but also allows auth that is not at the root of the call tree." },
+  {
+    value: "record_allow_nonroot",
+    label: "Record (allow non-root)",
+    help: "Like record, but also allows auth that is not at the root of the call tree.",
+  },
 ];
 
 export function FunctionPanel({ ws }: { ws: Workspace }) {
@@ -40,7 +45,8 @@ export function FunctionPanel({ ws }: { ws: Workspace }) {
   }, [sample, ws.source, load]);
 
   if (!fn || !spec) return null;
-  const errorsFor = (name: string) => ws.argErrors.filter((e) => e.path === name || e.path.startsWith(`${name}.`) || e.path.startsWith(`${name}[`));
+  const errorsFor = (name: string) =>
+    ws.argErrors.filter((e) => e.path === name || e.path.startsWith(`${name}.`) || e.path.startsWith(`${name}[`));
   const blocking = ws.argErrors.length + Object.keys(ws.draftErrors).length + (jsonSyntax ? 1 : 0);
   const suggested = sample?.suggestedCalls.filter((c) => c.method === fn.name) ?? [];
 
@@ -89,13 +95,19 @@ export function FunctionPanel({ ws }: { ws: Workspace }) {
               </button>
             ))}
           </div>
-          {suggested[0] && <p className="mt-1.5 text-xs text-muted">{suggested.find((c) => JSON.stringify(c.args) === JSON.stringify(ws.args))?.description ?? suggested[0].description}</p>}
+          {suggested[0] && (
+            <p className="mt-1.5 text-xs text-muted">
+              {suggested.find((c) => JSON.stringify(c.args) === JSON.stringify(ws.args))?.description ?? suggested[0].description}
+            </p>
+          )}
         </div>
       )}
 
       <fieldset className="space-y-3">
         <div className="flex items-center justify-between">
-          <legend className="text-sm font-semibold">Arguments {fn.inputs.length === 0 && <span className="font-normal text-muted">— none</span>}</legend>
+          <legend className="text-sm font-semibold">
+            Arguments {fn.inputs.length === 0 && <span className="font-normal text-muted">— none</span>}
+          </legend>
           {fn.inputs.length > 0 && (
             <div role="group" aria-label="Input mode" className="inline-flex rounded-md border border-border p-0.5 text-xs">
               {(["form", "json"] as const).map((m) => (
@@ -144,7 +156,8 @@ export function FunctionPanel({ ws }: { ws: Workspace }) {
                 setJsonText(text);
                 try {
                   const parsed = JSON.parse(text) as unknown;
-                  if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) throw new Error("Arguments must be a JSON object keyed by parameter name.");
+                  if (!parsed || typeof parsed !== "object" || Array.isArray(parsed))
+                    throw new Error("Arguments must be a JSON object keyed by parameter name.");
                   setJsonSyntax(null);
                   ws.setArgs(parsed as Record<string, JsonValue>);
                 } catch (e) {
@@ -164,9 +177,9 @@ export function FunctionPanel({ ws }: { ws: Workspace }) {
             )}
             <p className="text-xs text-muted">
               Autocomplete and validation come from the contract spec. See the{" "}
-              <a className="underline" href="/docs/value-format">
+              <Link className="underline" href="/docs/value-format">
                 value format
-              </a>{" "}
+              </Link>{" "}
               for how each type is written.
             </p>
           </div>
@@ -179,7 +192,13 @@ export function FunctionPanel({ ws }: { ws: Workspace }) {
         <legend className="text-sm font-semibold">Authorization mode</legend>
         <div className="grid gap-1.5 sm:grid-cols-3">
           {AUTH_MODES.map((m) => (
-            <label key={m.value} className={cx("cursor-pointer rounded-md border p-2 text-xs", ws.authMode === m.value ? "border-accent/60 bg-accent/5" : "border-border")}>
+            <label
+              key={m.value}
+              className={cx(
+                "cursor-pointer rounded-md border p-2 text-xs",
+                ws.authMode === m.value ? "border-accent/60 bg-accent/5" : "border-border",
+              )}
+            >
               <span className="flex items-center gap-1.5 font-medium">
                 <input type="radio" name={`${formId}-auth`} checked={ws.authMode === m.value} onChange={() => ws.setAuthMode(m.value)} />
                 {m.label}
@@ -211,10 +230,13 @@ export function FunctionPanel({ ws }: { ws: Workspace }) {
         </Button>
         <span className="text-xs text-muted">
           {blocking > 0 ? (
-            <span className="text-bad">{blocking} input {blocking === 1 ? "problem" : "problems"} to fix</span>
+            <span className="text-bad">
+              {blocking} input {blocking === 1 ? "problem" : "problems"} to fix
+            </span>
           ) : (
             <>
-              <kbd className="rounded border border-border px-1 font-mono">Ctrl</kbd>+<kbd className="rounded border border-border px-1 font-mono">Enter</kbd> · read-only, nothing is signed or submitted
+              <kbd className="rounded border border-border px-1 font-mono">Ctrl</kbd>+
+              <kbd className="rounded border border-border px-1 font-mono">Enter</kbd> · read-only, nothing is signed or submitted
             </>
           )}
         </span>

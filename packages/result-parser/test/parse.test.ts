@@ -120,7 +120,11 @@ describe("parseSimulationError", () => {
   });
 
   it("handles unknown contract codes", () => {
-    expect(parseSimulationError("Error(Contract, #99)", spec)).toMatchObject({ kind: "contract", contractErrorCode: 99, summary: "Contract error #99" });
+    expect(parseSimulationError("Error(Contract, #99)", spec)).toMatchObject({
+      kind: "contract",
+      contractErrorCode: 99,
+      summary: "Contract error #99",
+    });
   });
 
   it("falls back to the first line for RPC errors", () => {
@@ -152,8 +156,22 @@ describe("ScVal decoding", () => {
       functions: [],
       events: [],
       types: [
-        { kind: "union", name: "U", cases: [{ kind: "void", name: "None" }, { kind: "tuple", name: "Some", types: [{ kind: "u32" }] }] },
-        { kind: "enum", name: "Color", cases: [{ name: "Red", value: 0 }, { name: "Blue", value: 1 }] },
+        {
+          kind: "union",
+          name: "U",
+          cases: [
+            { kind: "void", name: "None" },
+            { kind: "tuple", name: "Some", types: [{ kind: "u32" }] },
+          ],
+        },
+        {
+          kind: "enum",
+          name: "Color",
+          cases: [
+            { name: "Red", value: 0 },
+            { name: "Blue", value: 1 },
+          ],
+        },
       ],
     };
     const some = xdr.ScVal.scvVec([xdr.ScVal.scvSymbol("Some"), xdr.ScVal.scvU32(4)]);

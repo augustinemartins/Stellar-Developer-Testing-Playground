@@ -135,7 +135,11 @@ export function NetworkSelector() {
             </label>
             <label className="block text-xs">
               Network passphrase
-              <input className={cx(inputClass, "mt-1 font-mono text-xs")} value={passphrase} onChange={(e) => setPassphrase(e.target.value)} />
+              <input
+                className={cx(inputClass, "mt-1 font-mono text-xs")}
+                value={passphrase}
+                onChange={(e) => setPassphrase(e.target.value)}
+              />
             </label>
             {error && (
               <p role="alert" className="text-xs text-bad">

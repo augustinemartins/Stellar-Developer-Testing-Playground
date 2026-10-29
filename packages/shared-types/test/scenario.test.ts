@@ -1,14 +1,5 @@
 import { describe, expect, it } from "vitest";
-import {
-  NETWORKS,
-  canonicalJson,
-  formatSignature,
-  formatType,
-  jsonEqual,
-  parseScenarioJson,
-  parseScenarios,
-  type Scenario,
-} from "../src";
+import { NETWORKS, canonicalJson, formatSignature, formatType, jsonEqual, parseScenarioJson, parseScenarios, type Scenario } from "../src";
 
 const base: Scenario = {
   schema: "stellar-playground/scenario",

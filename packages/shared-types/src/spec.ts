@@ -116,12 +116,7 @@ export const ErrorEnumSpecSchema = z.object({
 });
 export type ErrorEnumSpec = z.infer<typeof ErrorEnumSpecSchema>;
 
-export const UdtSpecSchema = z.discriminatedUnion("kind", [
-  StructSpecSchema,
-  UnionSpecSchema,
-  EnumSpecSchema,
-  ErrorEnumSpecSchema,
-]);
+export const UdtSpecSchema = z.discriminatedUnion("kind", [StructSpecSchema, UnionSpecSchema, EnumSpecSchema, ErrorEnumSpecSchema]);
 export type UdtSpec = z.infer<typeof UdtSpecSchema>;
 
 export const EventSpecSchema = z.object({
@@ -213,7 +208,5 @@ export function contractErrorCases(spec: ContractSpec): Map<number, { enumName: 
  * simulation itself is always read-only regardless.
  */
 export function looksReadOnly(fn: FunctionSpec): boolean {
-  return /^(get|balance|allowance|decimals|name|symbol|metadata|total_supply|admin|stats|is_|has_|read|query|view|version)/.test(
-    fn.name,
-  );
+  return /^(get|balance|allowance|decimals|name|symbol|metadata|total_supply|admin|stats|is_|has_|read|query|view|version)/.test(fn.name);
 }

@@ -24,7 +24,8 @@ export function ResultPanel({ ws }: { ws: Workspace }) {
           <Spinner label="Simulating…" />
         ) : (
           <EmptyState icon={<FlaskConical className="size-8" />} title="No simulation yet">
-            Fill in the arguments and press <strong>Simulate</strong>. Results show the return value, fees, resources, required signatures and events.
+            Fill in the arguments and press <strong>Simulate</strong>. Results show the return value, fees, resources, required signatures
+            and events.
           </EmptyState>
         )}
       </div>
@@ -45,10 +46,15 @@ export function ResultPanel({ ws }: { ws: Workspace }) {
           <label className="ml-auto flex items-center gap-1.5 text-xs text-muted">
             <History aria-hidden className="size-3.5" />
             <span className="sr-only">Run history</span>
-            <select value={ws.selectedRun} onChange={(e) => ws.setSelectedRun(Number(e.target.value))} className="rounded border border-border bg-panel px-1 py-0.5 text-xs text-fg">
+            <select
+              value={ws.selectedRun}
+              onChange={(e) => ws.setSelectedRun(Number(e.target.value))}
+              className="rounded border border-border bg-panel px-1 py-0.5 text-xs text-fg"
+            >
               {ws.history.map((h, i) => (
                 <option key={h.startedAt + i} value={i}>
-                  {i === 0 ? "Latest" : `#${ws.history.length - i}`} · {h.method} · {h.report.status} · {new Date(h.startedAt).toLocaleTimeString()}
+                  {i === 0 ? "Latest" : `#${ws.history.length - i}`} · {h.method} · {h.report.status} ·{" "}
+                  {new Date(h.startedAt).toLocaleTimeString()}
                 </option>
               ))}
             </select>
@@ -57,7 +63,9 @@ export function ResultPanel({ ws }: { ws: Workspace }) {
       </div>
       {/* Announce new results to screen readers without moving focus. */}
       <p className="sr-only" aria-live="polite">
-        {ws.running ? "" : `Simulation of ${run.method} ${r.status === "success" ? "succeeded" : r.status === "error" ? `failed: ${r.error?.summary}` : "needs a state restore"}.`}
+        {ws.running
+          ? ""
+          : `Simulation of ${run.method} ${r.status === "success" ? "succeeded" : r.status === "error" ? `failed: ${r.error?.summary}` : "needs a state restore"}.`}
       </p>
       <div className={cx("min-h-0 flex-1 overflow-y-auto", ws.running && "opacity-60")}>
         <Tabs

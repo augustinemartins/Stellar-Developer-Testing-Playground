@@ -48,7 +48,10 @@ export const ScenarioSchema = z.object({
     label: z.string().max(200).optional(),
     /** Spec snapshot so the scenario can be encoded and replayed without fetching WASM. */
     spec: ContractSpecSchema.optional(),
-    wasmHash: z.string().regex(/^[0-9a-f]{64}$/).optional(),
+    wasmHash: z
+      .string()
+      .regex(/^[0-9a-f]{64}$/)
+      .optional(),
   }),
   invocation: z.object({
     method: z.string().min(1).max(64),

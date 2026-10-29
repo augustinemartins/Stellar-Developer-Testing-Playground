@@ -6,7 +6,7 @@ order: 9
 
 # Redeploying the samples
 
-The **Counter** and **Sample token** contracts live in `contracts/` and are deployed to testnet. Testnet is reset roughly every quarter, which deletes every contract. When that happens the workspace shows *“This sample is not deployed on testnet right now”*.
+The **Counter** and **Sample token** contracts live in `contracts/` and are deployed to testnet. Testnet is reset roughly every quarter, which deletes every contract. When that happens the workspace shows _“This sample is not deployed on testnet right now”_.
 
 The **Native XLM** sample is a Stellar Asset Contract whose ID is derived from the network passphrase, so it survives resets.
 
